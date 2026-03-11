@@ -1,0 +1,1838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Ameet 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+:root{
+  --ffh:"Instrument Serif",Georgia,serif;
+  --ffb:"Geist",system-ui,sans-serif;
+  --bg:#f4f6fa;--bg2:#eaecf2;--bg3:#dde2ec;
+  --sur:rgba(0,0,0,0.03);--bdr:rgba(0,0,0,0.08);--bdr2:rgba(0,0,0,0.15);
+  --tx:#0d1117;--tx2:#5a6475;--tx3:#a0aab8;
+  --a:#e8622a;--a2:#f5a623;
+  --green:#22c55e;--blue:#3b82f6;--teal:#14b8a6;--purple:#a855f7;--red:#ef4444;
+  --r:14px;--r2:10px;--r3:7px;
+  --navh:64px;--sb:env(safe-area-inset-bottom,0px);--st:env(safe-area-inset-top,0px);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;overflow:hidden;}
+body{font-family:var(--ffb);background:var(--bg);color:var(--tx);display:flex;flex-direction:column;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+input,textarea,select{font-family:inherit;}
+::-webkit-scrollbar{width:0;height:0;}
+
+.saft{height:var(--st);flex-shrink:0;}
+.topbar{flex-shrink:0;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid var(--bdr);background:var(--bg);z-index:20;}
+.logo{font-family:var(--ffh);font-size:1.1rem;font-style:italic;}
+.logo b{font-style:normal;color:var(--a);}
+
+.scroll{flex:1;overflow-y:auto;overflow-x:hidden;}
+.pi{padding:14px 14px calc(var(--navh) + var(--sb) + 16px);}
+
+.nav{flex-shrink:0;height:calc(var(--navh) + var(--sb));padding-bottom:var(--sb);background:var(--bg);border-top:1px solid var(--bdr);display:flex;align-items:stretch;z-index:20;}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--tx3);transition:color .18s;padding-top:4px;}
+.nb.on{color:var(--a);}
+.ni{font-size:1.05rem;line-height:1;}
+.nl{font-size:.56rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;}
+
+.tab-switch{display:flex;gap:0;background:var(--sur);border:1px solid var(--bdr);border-radius:99px;padding:3px;margin-bottom:14px;}
+.ts-btn{flex:1;padding:7px 10px;border-radius:99px;font-size:.75rem;font-weight:600;color:var(--tx3);transition:all .2s;text-align:center;cursor:pointer;}
+.ts-btn.on{background:var(--a);color:#fff;box-shadow:0 2px 10px rgba(232,98,42,.3);}
+
+.page{display:none;height:100%;overflow:hidden;flex-direction:column;}
+.page.on{display:flex;animation:pgup .22s ease;}
+.subpage{display:none;}
+.subpage.on{display:block;}
+@keyframes pgup{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+
+.card{background:var(--sur);border:1px solid var(--bdr);border-radius:var(--r);padding:13px;margin-bottom:9px;position:relative;overflow:hidden;}
+.co{border-color:rgba(232,98,42,.22);background:rgba(232,98,42,.04);}
+.cg{border-color:rgba(34,197,94,.2);background:rgba(34,197,94,.04);}
+.cb{border-color:rgba(59,130,246,.2);background:rgba(59,130,246,.04);}
+.cp{border-color:rgba(168,85,247,.2);background:rgba(168,85,247,.04);}
+.cr{border-color:rgba(239,68,68,.2);background:rgba(239,68,68,.04);}
+
+.sl{font-size:.61rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--tx3);display:flex;align-items:center;gap:7px;margin:14px 0 7px;}
+.sl::after{content:"";flex:1;height:1px;background:var(--bdr);}
+
+.sg4{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:9px;}
+.sg2{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:9px;}
+.stile{background:var(--sur);border:1px solid var(--bdr);border-radius:var(--r2);padding:11px 7px;text-align:center;}
+.sv{font-family:var(--ffh);font-size:1.25rem;line-height:1;}
+.slb{font-size:.57rem;color:var(--tx2);text-transform:uppercase;letter-spacing:.06em;margin-top:3px;}
+
+.pb{background:var(--bg3);border-radius:99px;height:4px;overflow:hidden;margin:3px 0;}
+.pf{height:100%;border-radius:99px;transition:width .8s cubic-bezier(.4,0,.2,1);}
+
+.hero{background:linear-gradient(135deg,var(--bg3),var(--bg2));border:1px solid var(--bdr);border-radius:20px;padding:17px;margin-bottom:9px;position:relative;overflow:hidden;}
+.hero::after{content:"";position:absolute;top:-50px;right:-50px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(232,98,42,.1),transparent 70%);pointer-events:none;}
+.hdate{font-size:.67rem;color:var(--tx2);font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px;}
+.hname{font-family:var(--ffh);font-size:1.65rem;font-style:italic;line-height:1.2;margin-bottom:3px;}
+.hname b{font-style:normal;color:var(--a);}
+.hwk{font-size:.78rem;color:var(--tx2);margin-bottom:13px;}
+
+/* habit check items */
+.cks{display:flex;flex-direction:column;gap:5px;}
+.ci{display:flex;align-items:flex-start;gap:9px;padding:10px 11px;border-radius:var(--r2);background:var(--sur);border:1px solid var(--bdr);cursor:pointer;transition:all .15s;user-select:none;}
+.ci:active{transform:scale(.99);}
+.ci.done{background:rgba(34,197,94,.05);border-color:rgba(34,197,94,.18);}
+.ci.done .cil{color:var(--tx3);text-decoration:line-through;}
+.cbox{width:19px;height:19px;border-radius:5px;border:1.5px solid var(--bdr2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;font-size:.62rem;color:transparent;margin-top:1px;}
+.ci.done .cbox{background:var(--green);border-color:var(--green);color:#fff;box-shadow:0 0 8px rgba(34,197,94,.25);}
+.ci.skipped{background:rgba(239,68,68,.04);border-color:rgba(239,68,68,.2);}
+.ci.skipped .cil{color:var(--tx3);text-decoration:line-through;}
+.ci.skipped .cbox{background:var(--red);border-color:var(--red);color:#fff;}
+.cil{font-size:.83rem;font-weight:500;flex:1;line-height:1.3;}
+.cis{font-size:.67rem;color:var(--tx3);margin-top:2px;}
+.cdot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:7px;}
+
+/* reason box (skip reason) */
+.reason-wrap{margin-top:6px;padding:9px;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.18);border-radius:var(--r2);display:none;}
+.reason-wrap.show{display:block;}
+.reason-inp{width:100%;background:transparent;border:none;outline:none;font-size:.77rem;color:var(--tx);resize:none;min-height:48px;}
+.reason-inp::placeholder{color:var(--tx3);}
+.reason-save{font-size:.72rem;color:var(--red);padding:4px 11px;border-radius:99px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.18);margin-top:5px;}
+
+/* project section header in daily */
+.proj-group{margin-bottom:13px;}
+.proj-group-hdr{display:flex;align-items:center;gap:8px;padding:7px 11px;border-radius:var(--r2);margin-bottom:5px;}
+.proj-group-name{font-size:.75rem;font-weight:700;}
+.proj-group-badge{font-size:.6rem;padding:2px 8px;border-radius:99px;font-weight:600;}
+
+/* task row in daily */
+.task-row-d{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:var(--r2);background:var(--sur);border:1px solid var(--bdr);margin-bottom:5px;cursor:pointer;transition:all .15s;}
+.task-row-d.done-task .trd-label{text-decoration:line-through;color:var(--tx3);}
+.trd-check{width:17px;height:17px;border-radius:4px;border:1.5px solid var(--bdr2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.58rem;}
+.task-row-d.done-task .trd-check{background:var(--teal);border-color:var(--teal);color:#fff;}
+.trd-label{font-size:.8rem;flex:1;line-height:1.3;}
+.trd-proj{font-size:.6rem;color:var(--tx3);}
+
+/* complete day */
+.complete-day-btn{width:100%;padding:14px;border-radius:var(--r);font-size:.92rem;font-weight:700;transition:all .2s;margin-top:4px;display:flex;align-items:center;justify-content:center;gap:8px;}
+.complete-day-btn.locked{background:var(--sur);color:var(--tx3);border:1px dashed var(--bdr2);cursor:not-allowed;}
+.complete-day-btn.unlocked{background:linear-gradient(135deg,var(--green),#16a34a);color:#fff;border:none;box-shadow:0 4px 20px rgba(34,197,94,.4);cursor:pointer;animation:pulse-green 2s infinite;}
+@keyframes pulse-green{0%,100%{box-shadow:0 4px 20px rgba(34,197,94,.4);}50%{box-shadow:0 4px 30px rgba(34,197,94,.7);}}
+.complete-day-btn.completed{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.25);cursor:not-allowed;}
+.lock-hint{font-size:.68rem;color:var(--tx3);text-align:center;margin-top:6px;}
+
+/* cycle lock banner */
+.cycle-lock{padding:11px 13px;border-radius:var(--r2);background:rgba(232,98,42,.06);border:1px solid rgba(232,98,42,.18);margin-bottom:9px;display:flex;align-items:center;gap:10px;}
+.cycle-lock-icon{font-size:1.1rem;flex-shrink:0;}
+.cycle-lock-text{font-size:.75rem;color:var(--tx2);line-height:1.45;}
+.cycle-lock-text b{color:var(--tx);font-weight:600;}
+
+/* weekly task row */
+.wtask{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:var(--r2);background:var(--sur);border:1px solid var(--bdr);margin-bottom:5px;}
+.wtask.done .wtlabel{text-decoration:line-through;color:var(--tx3);}
+.wtcheck{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--bdr2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.62rem;cursor:pointer;transition:all .15s;}
+.wtask.done .wtcheck{background:var(--teal);border-color:var(--teal);color:#fff;}
+.wtlabel{font-size:.8rem;flex:1;line-height:1.3;}
+.wtday{font-size:.62rem;color:var(--blue);font-weight:600;flex-shrink:0;}
+.wtdel{font-size:.65rem;color:var(--tx3);padding:2px 6px;border-radius:4px;}
+
+/* project card in weekly/tracker */
+.proj-card{border:1px solid var(--bdr);border-radius:var(--r);margin-bottom:9px;overflow:hidden;}
+.proj-card-hdr{padding:12px 13px;display:flex;align-items:center;gap:10px;cursor:pointer;}
+.proj-card-name{font-size:.87rem;font-weight:700;flex:1;}
+.proj-card-sub{font-size:.67rem;color:var(--tx2);margin-top:2px;}
+.proj-card-pct{font-family:var(--ffh);font-size:1.1rem;font-weight:400;}
+.proj-card-body{padding:0 13px 13px;border-top:1px solid var(--bdr);background:var(--sur);}
+
+/* tracker charts */
+.chart-wrap{height:140px;position:relative;margin:7px 0;}
+.metric-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bdr);}
+.metric-row:last-child{border-bottom:none;}
+.metric-label{font-size:.78rem;flex:1;}
+.metric-val{font-family:var(--ffh);font-size:.95rem;color:var(--a);}
+.metric-sub{font-size:.62rem;color:var(--tx3);}
+
+/* settings sections */
+.settings-section{margin-bottom:18px;}
+.set-row{display:flex;align-items:center;gap:9px;padding:10px 12px;background:var(--sur);border:1px solid var(--bdr);border-radius:var(--r2);margin-bottom:6px;}
+.set-row-info{flex:1;}
+.set-row-name{font-size:.82rem;font-weight:500;}
+.set-row-sub{font-size:.63rem;color:var(--tx3);margin-top:1px;}
+
+/* toggle switch */
+.tog{position:relative;width:36px;height:20px;flex-shrink:0;}
+.tog input{opacity:0;width:0;height:0;}
+.tog-slider{position:absolute;inset:0;background:var(--bg3);border-radius:99px;cursor:pointer;transition:.2s;}
+.tog input:checked+.tog-slider{background:var(--a);}
+.tog-slider::before{content:"";position:absolute;width:16px;height:16px;border-radius:50%;background:#fff;top:2px;left:2px;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2);}
+.tog input:checked+.tog-slider::before{transform:translateX(16px);}
+
+/* goal/project items in settings */
+.goal-item{border:1px solid var(--bdr);border-radius:var(--r);margin-bottom:9px;overflow:hidden;}
+.goal-hdr{padding:12px 13px;display:flex;align-items:center;gap:9px;background:var(--sur);cursor:pointer;}
+.goal-name{font-size:.87rem;font-weight:700;flex:1;}
+.goal-pct{font-size:.72rem;color:var(--a2);font-weight:600;}
+.goal-body{padding:10px 13px 13px;}
+.proj-item{display:flex;align-items:center;gap:8px;padding:9px 11px;background:var(--bg);border:1px solid var(--bdr);border-radius:var(--r2);margin-bottom:6px;}
+.proj-item-info{flex:1;}
+.proj-item-name{font-size:.82rem;font-weight:600;}
+.proj-item-sub{font-size:.62rem;color:var(--tx3);margin-top:2px;}
+.proj-item-btns{display:flex;gap:5px;flex-shrink:0;}
+
+/* cycle status bar */
+.cycle-bar{background:linear-gradient(135deg,rgba(232,98,42,.08),rgba(245,166,35,.06));border:1px solid rgba(232,98,42,.18);border-radius:var(--r);padding:13px;margin-bottom:9px;}
+.cycle-bar-title{font-size:.68rem;font-weight:700;color:var(--a);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;}
+.cycle-bar-projects{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px;}
+.cycle-proj-tag{font-size:.65rem;padding:3px 9px;border-radius:99px;font-weight:600;background:rgba(232,98,42,.1);color:var(--a);border:1px solid rgba(232,98,42,.15);}
+.cycle-proj-tag.done{background:rgba(34,197,94,.1);color:var(--green);border-color:rgba(34,197,94,.2);}
+
+/* end-of-day questions */
+.eod-q{padding:10px 11px;background:var(--sur);border:1px solid var(--bdr);border-radius:var(--r2);margin-bottom:5px;}
+.eod-qlabel{font-size:.72rem;font-weight:600;color:var(--tx2);margin-bottom:5px;line-height:1.4;}
+.eod-ainp{width:100%;background:transparent;border:none;border-bottom:1px solid var(--bdr);outline:none;font-size:.82rem;padding:4px 0;color:var(--tx);resize:none;}
+.eod-ainp::placeholder{color:var(--tx3);}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:10px 16px;border-radius:99px;font-size:.83rem;font-weight:600;transition:all .15s;}
+.btn:active{transform:scale(.97);}
+.btp{background:linear-gradient(135deg,var(--a),var(--a2));color:#fff;box-shadow:0 4px 16px rgba(232,98,42,.28);}
+.btg{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.2);}
+.btr{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.18);}
+.btb{background:rgba(59,130,246,.1);color:var(--blue);border:1px solid rgba(59,130,246,.2);}
+.btgh{background:var(--sur);color:var(--tx2);border:1px solid var(--bdr);}
+.btsm{padding:5px 11px;font-size:.72rem;}
+.bfu{width:100%;}
+.brow{display:flex;gap:7px;}
+
+.inp{width:100%;background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r2);padding:10px 12px;color:var(--tx);font-size:.83rem;outline:none;transition:border-color .15s;}
+.inp:focus{border-color:var(--a);}
+.inp::placeholder{color:var(--tx3);}
+textarea.inp{resize:vertical;min-height:65px;}
+.igrp{display:flex;flex-direction:column;gap:4px;margin-bottom:9px;}
+.ilbl{font-size:.67rem;font-weight:600;color:var(--tx2);letter-spacing:.05em;text-transform:uppercase;}
+.irow{display:flex;gap:7px;}
+
+.tbl{width:100%;border-collapse:collapse;font-size:.77rem;}
+.tbl th{text-align:left;padding:8px 9px;font-size:.6rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3);border-bottom:1px solid var(--bdr);}
+.tbl td{padding:9px 9px;border-bottom:1px solid var(--bdr);vertical-align:middle;}
+.tbl tr:last-child td{border-bottom:none;}
+.tblwrap{border-radius:var(--r);overflow:hidden;border:1px solid var(--bdr);margin-bottom:9px;}
+
+.tag{display:inline-flex;align-items:center;padding:2px 7px;border-radius:99px;font-size:.63rem;font-weight:700;letter-spacing:.04em;}
+.to{background:rgba(232,98,42,.12);color:var(--a);}
+.tb2{background:rgba(59,130,246,.12);color:var(--blue);}
+.tg{background:rgba(34,197,94,.12);color:var(--green);}
+.tt{background:rgba(20,184,166,.12);color:var(--teal);}
+.tp{background:rgba(168,85,247,.12);color:var(--purple);}
+
+.modal-bg{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);display:none;align-items:flex-end;justify-content:center;}
+.modal-bg.open{display:flex;}
+.modal{background:var(--bg2);border:1px solid var(--bdr2);border-radius:20px 20px 0 0;padding:18px 16px calc(var(--sb) + 22px);width:100%;max-width:480px;animation:pgup .25s ease;position:relative;max-height:88vh;overflow-y:auto;}
+.modal h3{font-family:var(--ffh);font-size:1.1rem;font-style:italic;margin-bottom:12px;}
+.modal-x{position:absolute;top:13px;right:13px;width:27px;height:27px;border-radius:50%;background:var(--sur);border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:.72rem;color:var(--tx2);cursor:pointer;}
+
+#toast{position:fixed;bottom:calc(var(--navh) + var(--sb) + 10px);left:50%;transform:translateX(-50%) translateY(8px);background:var(--bg3);border:1px solid var(--bdr2);border-radius:99px;padding:9px 17px;font-size:.79rem;font-weight:500;white-space:nowrap;z-index:999;opacity:0;transition:all .25s;pointer-events:none;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+select.inp{appearance:none;}
+.vc{padding:11px;border-radius:var(--r2);margin-bottom:7px;background:var(--sur);border:1px solid var(--bdr);}
+.vt{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;}
+.vd{font-size:.78rem;color:var(--tx2);line-height:1.55;}
+.je{padding:11px;border-radius:var(--r2);margin-bottom:7px;background:var(--sur);border:1px solid var(--bdr);border-left:3px solid var(--purple);}
+.jed{font-size:.6rem;color:var(--tx3);font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;}
+.jfv{font-size:.79rem;line-height:1.45;margin-bottom:5px;}
+
+/* day popup */
+.day-popup-bg{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;}
+.day-popup-bg.open{display:flex;}
+.day-popup{background:var(--bg2);border:1px solid rgba(34,197,94,.3);border-radius:24px;padding:28px 22px;max-width:300px;width:90%;text-align:center;animation:pgup .3s ease;}
+.day-popup-icon{font-size:3rem;margin-bottom:10px;}
+.day-popup-title{font-family:var(--ffh);font-size:1.4rem;font-style:italic;color:var(--green);margin-bottom:6px;}
+.day-popup-sub{font-size:.8rem;color:var(--tx2);line-height:1.6;margin-bottom:18px;}
+.day-popup-close{width:100%;padding:12px;border-radius:99px;background:linear-gradient(135deg,var(--green),#16a34a);color:#fff;font-size:.88rem;font-weight:700;cursor:pointer;border:none;}
+
+/* ringwrap */
+.ringwrap{position:relative;width:80px;height:80px;flex-shrink:0;}
+.ringwrap svg{transform:rotate(-90deg);}
+.rtr{fill:none;stroke:var(--bdr);stroke-width:7;}
+.rfi{fill:none;stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset .8s cubic-bezier(.4,0,.2,1);}
+.rc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.rpct{font-family:var(--ffh);font-size:1.1rem;line-height:1;}
+.rlbl{font-size:.5rem;color:var(--tx2);text-transform:uppercase;letter-spacing:.07em;margin-top:2px;}
+
+/* backlog item */
+.bl-item{display:flex;align-items:center;gap:9px;padding:10px 12px;background:var(--sur);border:1px solid var(--bdr);border-radius:var(--r2);margin-bottom:6px;}
+.bl-name{font-size:.82rem;font-weight:500;flex:1;}
+.bl-sub{font-size:.62rem;color:var(--tx3);}
+</style>
+</head>
+<body>
+<div id="toast"></div>
+
+<div class="day-popup-bg" id="day-popup-bg">
+  <div class="day-popup">
+    <div class="day-popup-icon">🔓</div>
+    <div class="day-popup-title">Day complete!</div>
+    <div class="day-popup-sub">Habits logged. Journal saved.<br>This day is locked into your record.<br><br><strong>See you tomorrow, Ameet.</strong></div>
+    <button class="day-popup-close" onclick="document.getElementById('day-popup-bg').classList.remove('open')">Close</button>
+  </div>
+</div>
+
+<!-- Habit info popup -->
+<div id="habit-popup" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.5);align-items:flex-end;" onclick="closeHabitPopup()">
+  <div onclick="event.stopPropagation()" style="background:var(--bg);border-radius:20px 20px 0 0;padding:22px 20px 36px;width:100%;max-height:72vh;overflow-y:auto;border-top:1px solid var(--bdr);">
+    <div style="width:36px;height:4px;background:var(--bdr2);border-radius:99px;margin:0 auto 16px;"></div>
+    <div style="font-size:.6rem;font-weight:700;color:var(--a2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;" id="popup-category"></div>
+    <div style="font-size:1rem;font-weight:700;color:var(--tx);margin-bottom:12px;" id="popup-title"></div>
+    <div style="font-size:.84rem;color:var(--tx2);line-height:1.65;white-space:pre-line;" id="popup-hint"></div>
+    <button onclick="closeHabitPopup()" style="margin-top:18px;width:100%;padding:12px;border-radius:99px;background:var(--a);color:#fff;border:none;font-weight:600;font-size:.85rem;">Got it</button>
+  </div>
+</div>
+
+<!-- Generic modal for adding goals/projects/habits/tasks -->
+<div class="modal-bg" id="modal-add">
+  <div class="modal">
+    <button class="modal-x" onclick="closeModal('modal-add')">✕</button>
+    <h3 id="modal-add-title">Add</h3>
+    <div id="modal-add-body"></div>
+  </div>
+</div>
+
+<!-- End-of-cycle review modal -->
+<div class="modal-bg" id="modal-cycle-end">
+  <div class="modal">
+    <button class="modal-x" onclick="closeModal('modal-cycle-end')">✕</button>
+    <h3>End of cycle — review</h3>
+    <div id="cycle-end-body"></div>
+  </div>
+</div>
+
+<div class="saft"></div>
+<div class="topbar">
+  <div class="logo">Ameet <b>2026</b></div>
+  <div style="font-size:.68rem;color:var(--tx3);" id="topbar-cycle-label"></div>
+</div>
+
+<div class="scroll">
+
+<!-- ═══ DAILY ═══════════════════════════════════════════════════════════ -->
+<div class="page on" id="page-home"><div class="pi">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hdate" id="h-date"></div>
+    <div class="hname">Good morning, <b>Ameet</b></div>
+    <div class="hwk" id="h-cycle-sub">No active cycle — start one in Settings</div>
+    <div class="sg4" style="margin-bottom:0;">
+      <div class="stile"><div class="sv" id="hdays" style="color:var(--a)">1</div><div class="slb">Day</div></div>
+      <div class="stile"><div class="sv" id="hhabits" style="color:var(--green)">0</div><div class="slb">Habits</div></div>
+      <div class="stile"><div class="sv" id="hstreak" style="color:var(--blue)">0</div><div class="slb">Streak</div></div>
+      <div class="stile" onclick="openDueDateEditor()" style="cursor:pointer;">
+        <div class="sv" id="hwleft" style="color:var(--a2);font-size:.7rem;font-weight:700;line-height:1.3;">—</div>
+        <div class="slb">Left</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- No cycle state -->
+  <div id="daily-no-cycle" style="display:none;">
+    <div class="card co" style="text-align:center;padding:24px 16px;">
+      <div style="font-size:2rem;margin-bottom:10px;">🎯</div>
+      <div style="font-size:.95rem;font-weight:700;margin-bottom:6px;">No active cycle</div>
+      <div style="font-size:.78rem;color:var(--tx2);margin-bottom:14px;line-height:1.5;">Create goals and projects in Settings, then start a cycle to begin tracking.</div>
+      <button class="btn btp" onclick="goTab('settings',document.getElementById('nb-settings'))">Go to Settings</button>
+    </div>
+  </div>
+
+  <!-- Habit ring + group bars -->
+  <div id="daily-content" style="display:none;">
+    <div style="display:flex;align-items:center;gap:13px;padding:12px;background:var(--sur);border:1px solid var(--bdr);border-radius:var(--r);margin-bottom:9px;">
+      <div class="ringwrap">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <circle class="rtr" cx="40" cy="40" r="33"/>
+          <circle class="rfi" id="ring-fill" cx="40" cy="40" r="33" stroke="var(--a)" stroke-dasharray="207.3" stroke-dashoffset="207.3"/>
+        </svg>
+        <div class="rc"><div class="rpct" id="ring-pct">0%</div><div class="rlbl">today</div></div>
+      </div>
+      <div style="flex:1;">
+        <div style="font-size:.72rem;color:var(--tx2);margin-bottom:5px;" id="ring-summary">0 done · 0 left</div>
+        <div id="ring-group-bars"></div>
+      </div>
+    </div>
+
+    <!-- Habits by project -->
+    <div id="daily-habits-list"></div>
+
+    <!-- Today's tasks -->
+    <div id="daily-tasks-section" style="display:none;">
+      <div class="sl">📋 Today's tasks</div>
+      <div id="daily-tasks-list"></div>
+    </div>
+
+    <!-- Evening journal -->
+    <div class="sl">📝 Evening journal</div>
+    <div class="card" id="journal-card">
+      <div class="igrp"><label class="ilbl">🏆 One win today</label><input class="inp" id="j1" placeholder="I showed up even when I didn't want to…" oninput="updateCompleteDayBtn()"/></div>
+      <div class="igrp"><label class="ilbl">🧠 Negative thought caught</label><input class="inp" id="j2" placeholder="I told myself '___'…" oninput="updateCompleteDayBtn()"/></div>
+      <div class="igrp"><label class="ilbl">💡 How I reframed it</label><input class="inp" id="j3" placeholder="Actually, the truth is '___'…" oninput="updateCompleteDayBtn()"/></div>
+      <div class="igrp"><label class="ilbl">📈 Tomorrow I'll improve</label><input class="inp" id="j4" placeholder="One specific thing…" oninput="updateCompleteDayBtn()"/></div>
+    </div>
+
+    <!-- End-of-day questions (configurable) -->
+    <div id="eod-questions-section"></div>
+
+    <button class="complete-day-btn locked" id="complete-day-btn" onclick="completeDay()">🔒 Complete Day</button>
+    <div class="lock-hint" id="lock-hint">Log all habits + fill journal to complete the day</div>
+  </div>
+
+</div></div>
+
+<!-- ═══ WEEKLY ════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-plan"><div class="pi">
+
+  <div class="tab-switch">
+    <div class="ts-btn on" id="wt-goals" onclick="switchWeeklyTab('goals',this)">Goals</div>
+    <div class="ts-btn" id="wt-tasks" onclick="switchWeeklyTab('tasks',this)">Tasks</div>
+  </div>
+
+  <!-- Goals subtab — cycle overview -->
+  <div class="subpage on" id="wsub-goals">
+    <div id="weekly-no-cycle" style="display:none;">
+      <div class="card" style="text-align:center;padding:24px;">
+        <div style="font-size:.85rem;color:var(--tx3);">No active cycle. Start one in Settings.</div>
+      </div>
+    </div>
+    <div id="weekly-cycle-overview"></div>
+  </div>
+
+  <!-- Tasks subtab — weekly task planner -->
+  <div class="subpage" id="wsub-tasks">
+    <div id="weekly-tasks-content"></div>
+    <!-- Add task to a project -->
+    <div class="card" style="margin-top:4px;">
+      <div style="font-size:.72rem;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:9px;">Add task this week</div>
+      <div class="igrp">
+        <label class="ilbl">Task</label>
+        <input class="inp" id="wt-inp" placeholder="What needs to be done…" onkeydown="if(event.key==='Enter') addWeeklyTask()"/>
+      </div>
+      <div class="irow" style="margin-bottom:9px;">
+        <div style="flex:1;" class="igrp" style="margin-bottom:0;">
+          <label class="ilbl">Project</label>
+          <select class="inp" id="wt-proj" style="appearance:none;"></select>
+        </div>
+        <div style="flex:1;" class="igrp" style="margin-bottom:0;">
+          <label class="ilbl">Day</label>
+          <select class="inp" id="wt-day" style="appearance:none;">
+            <option value="Mon">Mon</option><option value="Tue">Tue</option><option value="Wed">Wed</option>
+            <option value="Thu">Thu</option><option value="Fri">Fri</option><option value="Sat">Sat</option>
+            <option value="Sun">Sun</option><option value="Any">Any day</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btp bfu" onclick="addWeeklyTask()">+ Add task</button>
+    </div>
+  </div>
+
+</div></div>
+
+<!-- ═══ TRACKER ══════════════════════════════════════════════════════════ -->
+<div class="page" id="page-progress"><div class="pi">
+
+  <div class="tab-switch">
+    <div class="ts-btn on" id="tr-cycle" onclick="switchTrackerTab('cycle',this)">Cycle</div>
+    <div class="ts-btn" id="tr-habits" onclick="switchTrackerTab('habits',this)">Habits</div>
+    <div class="ts-btn" id="tr-history" onclick="switchTrackerTab('history',this)">History</div>
+  </div>
+
+  <!-- Cycle subtab -->
+  <div class="subpage on" id="trsub-cycle">
+    <div id="tracker-cycle-content"></div>
+  </div>
+
+  <!-- Habits subtab -->
+  <div class="subpage" id="trsub-habits">
+    <div id="tracker-habits-content"></div>
+  </div>
+
+  <!-- History subtab -->
+  <div class="subpage" id="trsub-history">
+    <div id="tracker-history-content"></div>
+  </div>
+
+</div></div>
+
+<!-- ═══ NUTRITION ════════════════════════════════════════════════════════ -->
+<div class="page" id="page-body"><div class="pi">
+  <div class="card co" style="padding:13px 15px;margin-bottom:9px;">
+    <div style="font-size:.65rem;font-weight:700;color:var(--a2);text-transform:uppercase;letter-spacing:.09em;margin-bottom:4px;">🥗 Nutrition guide</div>
+    <div style="font-size:.8rem;color:var(--tx2);line-height:1.55;">Your personalised reference — what to eat, what to avoid, and what you've noticed works for your body.</div>
+  </div>
+  <div class="sl">Daily nutrition</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:9px;">
+    <div class="card cg" style="padding:10px;">
+      <div style="font-size:.65rem;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.07em;margin-bottom:7px;">✅ Eat daily</div>
+      <div id="eat-list" style="display:flex;flex-wrap:wrap;gap:4px;min-height:32px;"></div>
+      <div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(34,197,94,.15);">
+        <input class="inp" id="eat-inp" placeholder="Add food…" style="font-size:.72rem;padding:6px 9px;"/>
+        <button class="btn btg bfu" onclick="addDietItem('eat')" style="margin-top:5px;padding:7px;font-size:.72rem;">+ Add</button>
+      </div>
+    </div>
+    <div class="card cr" style="padding:10px;">
+      <div style="font-size:.65rem;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.07em;margin-bottom:7px;">❌ Always avoid</div>
+      <div id="avoid-list" style="display:flex;flex-wrap:wrap;gap:4px;min-height:32px;"></div>
+      <div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(239,68,68,.15);">
+        <input class="inp" id="avoid-inp" placeholder="Add item…" style="font-size:.72rem;padding:6px 9px;"/>
+        <button class="btn btr bfu" onclick="addDietItem('avoid')" style="margin-top:5px;padding:7px;font-size:.72rem;">+ Add</button>
+      </div>
+    </div>
+  </div>
+  <span id="bw" style="display:none">82.5</span><span id="bbf" style="display:none">27%</span>
+  <div class="sl">My notes — what works for me</div>
+  <div class="card">
+    <div style="font-size:.72rem;color:var(--tx2);margin-bottom:9px;line-height:1.5;">Track what you've noticed — foods that reduce inflammation, things that spike your energy.</div>
+    <div id="diet-notes-list"></div>
+    <div style="margin-top:9px;padding-top:9px;border-top:1px solid var(--bdr);">
+      <div class="irow" style="margin-bottom:7px;">
+        <select class="inp" id="note-type" style="max-width:110px;appearance:none;">
+          <option value="helps">✅ Helps me</option>
+          <option value="avoid">❌ Avoid</option>
+          <option value="noticed">💡 Noticed</option>
+        </select>
+        <input class="inp" id="note-text" placeholder="e.g. Sardines reduce my afternoon bloating…"/>
+      </div>
+      <button class="btn btp bfu" onclick="addDietNote()">Add note</button>
+    </div>
+  </div>
+</div></div>
+
+<!-- ═══ SETTINGS ════════════════════════════════════════════════════════ -->
+<div class="page" id="page-settings"><div class="pi">
+
+  <div class="tab-switch">
+    <div class="ts-btn on" id="st-goals" onclick="switchSettingsTab('goals',this)">Goals</div>
+    <div class="ts-btn" id="st-cycle" onclick="switchSettingsTab('cycle',this)">Cycle</div>
+    <div class="ts-btn" id="st-prefs" onclick="switchSettingsTab('prefs',this)">Prefs</div>
+  </div>
+
+  <!-- Goals management -->
+  <div class="subpage on" id="ssub-goals">
+    <button class="btn btp bfu" onclick="openAddGoal()" style="margin-bottom:12px;">+ New goal</button>
+    <div id="goals-list"></div>
+
+    <div class="sl" style="margin-top:6px;">Archived habits pool</div>
+    <div style="font-size:.72rem;color:var(--tx2);margin-bottom:9px;line-height:1.5;">Previous habits waiting to be assigned to a project.</div>
+    <div id="archived-pool"></div>
+  </div>
+
+  <!-- Cycle management -->
+  <div class="subpage" id="ssub-cycle">
+    <div id="cycle-mgmt-content"></div>
+  </div>
+
+  <!-- Preferences -->
+  <div class="subpage" id="ssub-prefs">
+    <div class="sl">Body goals</div>
+    <div class="card">
+      <div class="igrp"><label class="ilbl">Target weight (kg)</label><input class="inp" id="s-tw" type="number" value="68" step="0.5"/></div>
+      <div class="igrp"><label class="ilbl">Target body fat %</label><input class="inp" id="s-tbf" type="number" value="15" step="0.5"/></div>
+      <div class="igrp"><label class="ilbl">Starting weight (kg)</label><input class="inp" id="s-sw" type="number" value="82.5" step="0.5"/></div>
+      <div class="igrp"><label class="ilbl">Starting BF%</label><input class="inp" id="s-sbf" type="number" value="27" step="0.5"/></div>
+      <button class="btn btp bfu" onclick="saveTargets()">Save</button>
+    </div>
+
+    <div class="sl">End-of-day questions</div>
+    <div style="font-size:.72rem;color:var(--tx2);margin-bottom:9px;line-height:1.5;">Questions shown at the end of your daily check-in. Off by default — add your own.</div>
+    <div id="eod-config-list"></div>
+    <div class="card">
+      <div class="igrp"><label class="ilbl">Question text</label><input class="inp" id="eod-q-inp" placeholder="e.g. Did I give my best today?"/></div>
+      <button class="btn btg bfu" onclick="addEodQuestion()">Add question</button>
+    </div>
+
+    <div class="sl">Data</div>
+    <div class="card">
+      <div class="brow">
+        <button class="btn btgh bfu" onclick="exportJSON()">Export backup</button>
+        <button class="btn btr" onclick="clearData()">Clear all</button>
+      </div>
+    </div>
+    <div style="text-align:center;padding:20px 0;font-size:.7rem;color:var(--tx3);">Ameet 2026 · v37.0</div>
+  </div>
+
+</div></div>
+
+</div><!-- end scroll -->
+
+<!-- Due date modal -->
+<div id="due-modal" style="display:none;position:fixed;inset:0;z-index:201;background:rgba(0,0,0,0.5);align-items:flex-end;" onclick="closeDueDateEditor()">
+  <div onclick="event.stopPropagation()" style="background:var(--bg);border-radius:20px 20px 0 0;padding:22px 20px 32px;width:100%;border-top:1px solid var(--bdr);">
+    <div style="width:36px;height:4px;background:var(--bdr2);border-radius:99px;margin:0 auto 16px;"></div>
+    <div style="font-size:.88rem;font-weight:700;color:var(--tx);margin-bottom:4px;">Cycle end date</div>
+    <div class="igrp"><label class="ilbl">Due date</label><input class="inp" type="date" id="due-date-inp"/></div>
+    <div style="display:flex;gap:8px;margin-top:4px;">
+      <button onclick="saveDueDate()" style="flex:1;padding:12px;border-radius:99px;background:var(--a);color:#fff;border:none;font-weight:600;font-size:.85rem;">Save</button>
+      <button onclick="closeDueDateEditor()" style="padding:12px 18px;border-radius:99px;background:var(--sur);color:var(--tx2);border:1px solid var(--bdr);font-size:.85rem;">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<nav class="nav">
+  <button class="nb on" id="nb-home" onclick="goTab('home',this)"><div class="ni">🏠</div><div class="nl">Daily</div></button>
+  <button class="nb" id="nb-plan" onclick="goTab('plan',this)"><div class="ni">📋</div><div class="nl">Weekly</div></button>
+  <button class="nb" id="nb-progress" onclick="goTab('progress',this)"><div class="ni">📈</div><div class="nl">Tracker</div></button>
+  <button class="nb" id="nb-body" onclick="goTab('body',this)"><div class="ni">🥗</div><div class="nl">Nutrition</div></button>
+  <button class="nb" id="nb-settings" onclick="goTab('settings',this)"><div class="ni">⚙️</div><div class="nl">Settings</div></button>
+</nav>
+
+<script>
+// ── CONSTANTS ────────────────────────────────────────────────────────────
+const START = new Date('2026-03-09');
+const DAYS  = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const DAYS_SHORT = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const COLOR_MAP = {
+  'Health & Fitness':'var(--green)','Career':'var(--blue)',
+  'Personal Development':'var(--purple)','Learning':'var(--a2)',
+  'Personal Projects':'var(--teal)','Free Time':'var(--a)','Other':'var(--tx3)'
+};
+
+// ── STATE ────────────────────────────────────────────────────────────────
+let S = {};
+try{ S = JSON.parse(localStorage.getItem('a26v37')||'{}'); }catch(e){}
+
+const def = (k,v) => { if(S[k]===undefined) S[k]=v; };
+def('goals',[]);         // [{id,name,area,projects:[],archived,createdAt}]
+def('projects',[]);      // [{id,goalId,name,deadline,habits:[],tasks:[],archived,status:'active'|'complete'|'abandoned'}]
+def('cycle',null);       // {id,startDate,endDate,projectIds:[],locked,status:'active'|'ended'}
+def('cycleHistory',[]);  // past cycles
+def('habitLog',{});      // {date: {projId_habId: state}} state: 'done'|'skipped'|null
+def('habitReasons',{});  // {date_projId_habId: reason}
+def('taskLog',{});       // {date: {taskId: done}}
+def('journals',[]);
+def('journalDates',[]);
+def('completedDays',[]);
+def('weeklyTasks',{});   // {wkKey: [{id,projId,text,day,done}]}
+def('targets',{tw:68,tbf:15,sw:82.5,sbf:27});
+def('eodQuestions',[]);  // [{id,text,enabled}]
+def('archivedHabits',[]); // migrated old habits
+def('dietNotes',[]);
+def('dietEat',[]);
+def('dietAvoid',[]);
+
+function save(){ localStorage.setItem('a26v37', JSON.stringify(S)); }
+function today(){ return new Date().toISOString().split('T')[0]; }
+function curWk(){
+  const diff = Math.floor((new Date() - START) / (1000*60*60*24*7));
+  return Math.max(1, diff+1);
+}
+function wkKey(){ return 'w'+curWk(); }
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+
+// ── NAVIGATION ───────────────────────────────────────────────────────────
+function goTab(id, el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  const page = document.getElementById('page-'+id);
+  if(page) page.classList.add('on');
+  if(el) el.classList.add('on');
+  if(id==='home')     { buildDailyView(); }
+  if(id==='plan')     { buildWeeklyView(); }
+  if(id==='progress') { buildTracker(); }
+  if(id==='body')     { loadDietPage(); }
+  if(id==='settings') { buildSettingsGoals(); buildCycleMgmt(); buildEodConfig(); buildArchivedPool(); }
+}
+
+function switchWeeklyTab(id, el){
+  document.querySelectorAll('#page-plan .ts-btn').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('#page-plan .subpage').forEach(p=>p.classList.remove('on'));
+  if(el) el.classList.add('on');
+  const sp = document.getElementById('wsub-'+id); if(sp) sp.classList.add('on');
+  if(id==='tasks') buildWeeklyTasks();
+}
+
+function switchTrackerTab(id, el){
+  document.querySelectorAll('#page-progress .ts-btn').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('#page-progress .subpage').forEach(p=>p.classList.remove('on'));
+  if(el) el.classList.add('on');
+  const sp = document.getElementById('trsub-'+id); if(sp) sp.classList.add('on');
+  if(id==='cycle')   buildTrackerCycle();
+  if(id==='habits')  buildTrackerHabits();
+  if(id==='history') buildTrackerHistory();
+}
+
+function switchSettingsTab(id, el){
+  document.querySelectorAll('#page-settings .ts-btn').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('#page-settings .subpage').forEach(p=>p.classList.remove('on'));
+  if(el) el.classList.add('on');
+  const sp = document.getElementById('ssub-'+id); if(sp) sp.classList.add('on');
+  if(id==='goals') { buildSettingsGoals(); buildArchivedPool(); }
+  if(id==='cycle') buildCycleMgmt();
+  if(id==='prefs') { buildEodConfig(); }
+}
+
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+function openModal(id){ document.getElementById(id).classList.add('open'); }
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2600); }
+
+// ── HELPERS ───────────────────────────────────────────────────────────────
+function getActiveCycle(){ return S.cycle && S.cycle.status==='active' ? S.cycle : null; }
+function getCycleProjects(){
+  const c = getActiveCycle(); if(!c) return [];
+  return (c.projectIds||[]).map(id=>S.projects.find(p=>p.id===id)).filter(Boolean);
+}
+function getProjectHabits(projId){
+  const p = S.projects.find(p=>p.id===projId); if(!p) return [];
+  return (p.habits||[]).filter(h=>!h.archived);
+}
+function getActiveHabitsForDay(){
+  return getCycleProjects().flatMap(p=>
+    getProjectHabits(p.id).map(h=>({...h, projId:p.id, projName:p.name, projColor:goalColorForProject(p.id)}))
+  );
+}
+function goalColorForProject(projId){
+  const p = S.projects.find(p=>p.id===projId); if(!p) return 'var(--tx3)';
+  const g = S.goals.find(g=>g.id===p.goalId);
+  return g ? (COLOR_MAP[g.area]||'var(--a)') : 'var(--a)';
+}
+function getHabitState(date, projId, habId){
+  return S.habitLog?.[date]?.[projId+'_'+habId] || null;
+}
+function setHabitState(date, projId, habId, state){
+  if(!S.habitLog) S.habitLog={};
+  if(!S.habitLog[date]) S.habitLog[date]={};
+  S.habitLog[date][projId+'_'+habId] = state;
+  save();
+}
+// Habit completion % based on configured target days
+function habitCompletionRate(projId, habId, days){
+  const habit = S.projects.find(p=>p.id===projId)?.habits?.find(h=>h.id===habId);
+  if(!habit) return 0;
+  const target = habit.targetDays || 7; // days per week
+  let done = 0;
+  days.forEach(d=>{ if(getHabitState(d,projId,habId)==='done') done++; });
+  return Math.min(100, Math.round(done/target*100));
+}
+
+// ── DAILY VIEW ────────────────────────────────────────────────────────────
+function buildDailyView(){
+  const now = new Date();
+  const el = document.getElementById('h-date');
+  if(el) el.textContent = now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
+
+  updateWksLeftTile();
+
+  const c = getActiveCycle();
+  const noC = document.getElementById('daily-no-cycle');
+  const cont = document.getElementById('daily-content');
+
+  if(!c){ if(noC) noC.style.display=''; if(cont) cont.style.display='none'; updateHeroStats(); return; }
+  if(noC) noC.style.display='none';
+  if(cont) cont.style.display='';
+
+  document.getElementById('h-cycle-sub').textContent =
+    'Cycle ends '+new Date(c.endDate).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+
+  buildDailyHabits();
+  buildDailyTasks();
+  buildEodQuestions();
+  updateRing();
+  updateHeroStats();
+  restoreJournal();
+  updateCompleteDayBtn();
+}
+
+function buildDailyHabits(){
+  const el = document.getElementById('daily-habits-list'); if(!el) return;
+  const projs = getCycleProjects();
+  const td = today();
+  const dayCompleted = S.completedDays.includes(td);
+
+  el.innerHTML = projs.map(proj=>{
+    const habits = getProjectHabits(proj.id);
+    if(!habits.length) return '';
+    const col = goalColorForProject(proj.id);
+    const habRows = habits.map(h=>renderHabitRow(proj,h,td,dayCompleted)).join('');
+    return `<div class="proj-group">
+      <div class="proj-group-hdr" style="background:${col}15;border:1px solid ${col}25;">
+        <div class="cdot" style="background:${col};width:7px;height:7px;border-radius:50%;"></div>
+        <div class="proj-group-name">${proj.name}</div>
+      </div>
+      <div class="cks">${habRows}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderHabitRow(proj, h, date, locked){
+  const state = getHabitState(date, proj.id, h.id);
+  const isDone = state==='done', isSkip = state==='skipped';
+  const col = goalColorForProject(proj.id);
+  const freq = h.targetDays===7 ? 'Daily' : h.targetDays+'×/wk';
+  const hasReason = h.reasonEnabled;
+  const reason = S.habitReasons?.[date+'_'+proj.id+'_'+h.id]||'';
+  return `
+    <div class="ci${isDone?' done':isSkip?' skipped':''}" id="ci-${proj.id}-${h.id}"
+      onclick="${locked?'':'toggleHabitState(\''+proj.id+'\',\''+h.id+'\')'}">
+      <div class="cbox">✓</div>
+      <div class="cdot" style="background:${col}"></div>
+      <div style="flex:1;">
+        <div class="cil">${h.name}</div>
+        <div class="cis">${freq}${h.hint?' · '+h.hint.slice(0,40):''}</div>
+        ${isSkip && hasReason ? `<div class="reason-wrap show" onclick="event.stopPropagation()">
+          <textarea class="reason-inp" id="reason-${proj.id}-${h.id}" placeholder="Why did you skip?" onchange="saveReason('${proj.id}','${h.id}')">${reason}</textarea>
+          <button class="reason-save" onclick="saveReason('${proj.id}','${h.id}')">Save</button>
+        </div>`:''}
+      </div>
+      ${h.hint?`<div onclick="event.stopPropagation();showHabitHint(event,'${h.id}','${proj.id}')" style="font-size:.75rem;color:var(--tx3);padding:3px 6px;">ℹ️</div>`:''}
+    </div>`;
+}
+
+function toggleHabitState(projId, habId){
+  const td = today();
+  const cur = getHabitState(td, projId, habId);
+  const next = cur===null?'done':cur==='done'?'skipped':null;
+  setHabitState(td, projId, habId, next);
+  buildDailyHabits();
+  updateRing();
+  updateHeroStats();
+  updateCompleteDayBtn();
+}
+
+function saveReason(projId, habId){
+  const el = document.getElementById('reason-'+projId+'-'+habId);
+  if(!el) return;
+  if(!S.habitReasons) S.habitReasons={};
+  S.habitReasons[today()+'_'+projId+'_'+habId] = el.value.trim();
+  save(); toast('Reason saved ✓');
+}
+
+function buildDailyTasks(){
+  const dayName = DAYS[new Date().getDay()];
+  const wk = wkKey();
+  const tasks = (S.weeklyTasks[wk]||[]).filter(t=> t.day===dayName||t.day==='Any');
+  const el = document.getElementById('daily-tasks-section');
+  const list = document.getElementById('daily-tasks-list');
+  if(!tasks.length){ if(el) el.style.display='none'; return; }
+  if(el) el.style.display='';
+  if(!list) return;
+  const td = today();
+  list.innerHTML = tasks.map(t=>{
+    const done = S.taskLog?.[td]?.[t.id]||false;
+    const proj = S.projects.find(p=>p.id===t.projId);
+    return `<div class="task-row-d${done?' done-task':''}" onclick="toggleDailyTask('${t.id}')">
+      <div class="trd-check">${done?'✓':''}</div>
+      <div style="flex:1;">
+        <div class="trd-label">${t.text}</div>
+        ${proj?`<div class="trd-proj">${proj.name}</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleDailyTask(taskId){
+  const td = today();
+  if(!S.taskLog) S.taskLog={};
+  if(!S.taskLog[td]) S.taskLog[td]={};
+  S.taskLog[td][taskId] = !S.taskLog[td][taskId];
+  save(); buildDailyTasks(); updateCompleteDayBtn();
+}
+
+function buildEodQuestions(){
+  const el = document.getElementById('eod-questions-section'); if(!el) return;
+  const qs = (S.eodQuestions||[]).filter(q=>q.enabled);
+  if(!qs.length){ el.innerHTML=''; return; }
+  const td = today();
+  const saved = S.habitLog?.[td]?.['__eod']||{};
+  el.innerHTML = `<div class="sl">💬 Reflection questions</div>` +
+    qs.map(q=>`
+      <div class="eod-q">
+        <div class="eod-qlabel">${q.text}</div>
+        <textarea class="eod-ainp" id="eodq-${q.id}" placeholder="Your answer…" rows="2"
+          onchange="saveEodAnswer('${q.id}')">${saved[q.id]||''}</textarea>
+      </div>`).join('');
+}
+
+function saveEodAnswer(qid){
+  const el = document.getElementById('eodq-'+qid); if(!el) return;
+  const td = today();
+  if(!S.habitLog) S.habitLog={};
+  if(!S.habitLog[td]) S.habitLog[td]={};
+  if(!S.habitLog[td]['__eod']) S.habitLog[td]['__eod']={};
+  S.habitLog[td]['__eod'][qid] = el.value.trim();
+  save();
+}
+
+function updateRing(){
+  const habits = getActiveHabitsForDay();
+  const td = today();
+  let done=0, skipped=0;
+  habits.forEach(h=>{ const s=getHabitState(td,h.projId,h.id); if(s==='done') done++; else if(s==='skipped') skipped++; });
+  const total = habits.length;
+  const pct = total ? Math.round(done/total*100) : 0;
+  const circ = 207.3;
+  const fill = document.getElementById('ring-fill');
+  if(fill) fill.style.strokeDashoffset = circ - (circ*pct/100);
+  const rp = document.getElementById('ring-pct'); if(rp) rp.textContent=pct+'%';
+  const rs = document.getElementById('ring-summary'); if(rs) rs.textContent=`${done} done · ${total-done-skipped} left · ${skipped} skipped`;
+
+  // Group bars
+  const bars = document.getElementById('ring-group-bars'); if(!bars) return;
+  const projs = getCycleProjects();
+  bars.innerHTML = projs.map(proj=>{
+    const ph = getProjectHabits(proj.id);
+    if(!ph.length) return '';
+    const pd = ph.filter(h=>getHabitState(td,proj.id,h.id)==='done').length;
+    const pp = ph.length ? Math.round(pd/ph.length*100):0;
+    const col = goalColorForProject(proj.id);
+    const barCol = pp>=90?'var(--green)':pp>=70?'var(--a2)':'var(--a)';
+    return `<div style="margin-bottom:3px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:1px;">
+        <span style="font-size:.6rem;color:var(--tx3);">${proj.name.slice(0,18)}</span>
+        <span style="font-size:.6rem;color:${col};font-weight:600;">${pd}/${ph.length}</span>
+      </div>
+      <div class="pb"><div class="pf" style="width:${pp}%;background:${barCol}"></div></div>
+    </div>`;
+  }).join('');
+}
+
+function updateHeroStats(){
+  const td = today();
+  const dayIn = Math.max(1, Math.floor((new Date()-START)/(1000*60*60*24))+1);
+  document.getElementById('hdays').textContent = dayIn;
+
+  const habits = getActiveHabitsForDay();
+  const done = habits.filter(h=>getHabitState(td,h.projId,h.id)==='done').length;
+  document.getElementById('hhabits').textContent = done+'/'+habits.length;
+
+  // Habit streak — consecutive days where >70% habits done
+  let streak=0;
+  for(let i=0;i<365;i++){
+    const d=new Date(); d.setDate(d.getDate()-i);
+    const ds=d.toISOString().split('T')[0];
+    if(ds===td) continue;
+    const log = S.habitLog?.[ds];
+    if(!log) break;
+    const vals = Object.entries(log).filter(([k])=>!k.startsWith('__'));
+    const dayDone = vals.filter(([,v])=>v==='done').length;
+    const dayTotal = vals.length;
+    if(!dayTotal||dayDone/dayTotal<0.7) break;
+    streak++;
+  }
+  document.getElementById('hstreak').textContent = streak;
+}
+
+function updateWksLeftTile(){
+  const c = getActiveCycle();
+  const el = document.getElementById('hwleft'); if(!el) return;
+  if(!c){ el.textContent='—'; return; }
+  const now = new Date();
+  const end = new Date(c.endDate+'T23:59:59');
+  const msLeft = Math.max(0, end-now);
+  const dLeft = Math.ceil(msLeft/(1000*60*60*24));
+  const wLeft = Math.floor(dLeft/7), dRem = dLeft%7;
+  const dayIn = Math.max(1,Math.floor((now-new Date(c.startDate))/(1000*60*60*24))+1);
+  if(dLeft<=0){ el.textContent='Done'; el.style.fontSize='.75rem'; return; }
+  const wStr = wLeft>0 ? wLeft+'w'+(dRem>0?' '+dRem+'d':'') : dRem+'d';
+  el.textContent = 'D'+dayIn+' / '+wStr;
+  el.style.fontSize='.6rem';
+  el.style.fontWeight='700';
+}
+
+function journalFilled(){
+  return ['j1','j2','j3','j4'].every(id=>{ const el=document.getElementById(id); return el&&el.value.trim(); });
+}
+
+function allHabitsAddressed(){
+  const habits = getActiveHabitsForDay();
+  const td = today();
+  return habits.every(h=>getHabitState(td,h.projId,h.id)!==null);
+}
+
+function updateCompleteDayBtn(){
+  const btn = document.getElementById('complete-day-btn');
+  const hint = document.getElementById('lock-hint');
+  const td = today();
+  if(!btn) return;
+  if(S.completedDays.includes(td)){
+    btn.className='complete-day-btn completed'; btn.textContent='✅ Day completed'; return;
+  }
+  const ready = allHabitsAddressed() && journalFilled();
+  btn.className='complete-day-btn '+(ready?'unlocked':'locked');
+  btn.textContent = ready ? '✅ Complete Day' : '🔒 Complete Day';
+  if(hint) hint.textContent = ready ? 'Tap to lock in today' : 'Log all habits + fill journal to complete the day';
+}
+
+function completeDay(){
+  const td = today();
+  if(S.completedDays.includes(td)) return;
+  if(!allHabitsAddressed()||!journalFilled()){ toast('Finish all habits + journal first'); return; }
+  // Save journal
+  S.journals.push({date:td,win:document.getElementById('j1').value.trim(),caught:document.getElementById('j2').value.trim(),reframe:document.getElementById('j3').value.trim(),improve:document.getElementById('j4').value.trim()});
+  if(!S.journalDates.includes(td)) S.journalDates.push(td);
+  S.completedDays.push(td);
+  save();
+  document.getElementById('day-popup-bg').classList.add('open');
+  updateCompleteDayBtn();
+}
+
+function restoreJournal(){
+  const td = today();
+  if(!S.completedDays.includes(td)) return;
+  const j = S.journals.find(j=>j.date===td);
+  if(!j) return;
+  ['j1','j2','j3','j4'].forEach((id,i)=>{ const el=document.getElementById(id); if(el) el.value=[j.win,j.caught,j.reframe,j.improve][i]||''; });
+  updateCompleteDayBtn();
+}
+
+// ── WEEKLY VIEW ───────────────────────────────────────────────────────────
+function buildWeeklyView(){
+  buildWeeklyCycleOverview();
+  populateWeeklyProjSelect();
+}
+
+function buildWeeklyCycleOverview(){
+  const el = document.getElementById('weekly-cycle-overview'); if(!el) return;
+  const noC = document.getElementById('weekly-no-cycle');
+  const c = getActiveCycle();
+  if(!c){ if(noC) noC.style.display=''; el.innerHTML=''; return; }
+  if(noC) noC.style.display='none';
+
+  const projs = getCycleProjects();
+  const wk = wkKey();
+  const td = today();
+
+  el.innerHTML = projs.map(proj=>{
+    const habits = getProjectHabits(proj.id);
+    const col = goalColorForProject(proj.id);
+    const goal = S.goals.find(g=>g.id===proj.goalId);
+
+    // This week's habit completion
+    const thisWeekDays = getThisWeekDays();
+    const totalSlots = habits.reduce((s,h)=>s+(h.targetDays||7),0);
+    let doneSlots = 0;
+    habits.forEach(h=>{
+      thisWeekDays.forEach(d=>{ if(getHabitState(d,proj.id,h.id)==='done') doneSlots++; });
+    });
+    const habitPct = totalSlots ? Math.round(doneSlots/totalSlots*100) : 0;
+
+    // Tasks this week
+    const tasks = (S.weeklyTasks[wk]||[]).filter(t=>t.projId===proj.id);
+    const tasksDone = tasks.filter(t=>t.done).length;
+    const deadline = proj.deadline ? new Date(proj.deadline).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : 'No deadline';
+
+    return `<div class="proj-card">
+      <div class="proj-card-hdr" style="background:${col}08;">
+        <div class="cdot" style="background:${col};width:8px;height:8px;border-radius:50%;flex-shrink:0;"></div>
+        <div style="flex:1;">
+          <div class="proj-card-name">${proj.name}</div>
+          <div class="proj-card-sub">${goal?goal.name+' · ':''}<span style="color:var(--tx3);">${deadline}</span></div>
+        </div>
+        <div class="proj-card-pct" style="color:${col};">${habitPct}%</div>
+      </div>
+      <div class="proj-card-body">
+        <div style="display:flex;gap:14px;padding-top:10px;margin-bottom:10px;">
+          <div style="flex:1;text-align:center;">
+            <div style="font-family:var(--ffh);font-size:1.3rem;color:${col};">${habitPct}%</div>
+            <div style="font-size:.6rem;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em;">Habits</div>
+          </div>
+          <div style="flex:1;text-align:center;">
+            <div style="font-family:var(--ffh);font-size:1.3rem;color:var(--teal);">${tasksDone}/${tasks.length}</div>
+            <div style="font-size:.6rem;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em;">Tasks</div>
+          </div>
+          <div style="flex:1;text-align:center;">
+            <div style="font-family:var(--ffh);font-size:1.3rem;color:var(--a2);">${habits.length}</div>
+            <div style="font-size:.6rem;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em;">Habits</div>
+          </div>
+        </div>
+        <div class="pb" style="margin-bottom:6px;"><div class="pf" style="width:${habitPct}%;background:${habitPct>=90?'var(--green)':habitPct>=70?'var(--a2)':'var(--a)'};"></div></div>
+        ${habits.length ? `<div style="font-size:.67rem;color:var(--tx3);margin-top:4px;">${habits.map(h=>h.name).join(' · ')}</div>` : ''}
+      </div>
+    </div>`;
+  }).join('') || '<div style="color:var(--tx3);font-size:.78rem;padding:8px 0;">No projects in active cycle.</div>';
+}
+
+function buildWeeklyTasks(){
+  const el = document.getElementById('weekly-tasks-content'); if(!el) return;
+  const c = getActiveCycle();
+  if(!c){ el.innerHTML='<div style="color:var(--tx3);font-size:.78rem;padding:8px 0;">No active cycle.</div>'; return; }
+
+  const wk = wkKey();
+  const projs = getCycleProjects();
+  const tasks = S.weeklyTasks[wk]||[];
+
+  if(!tasks.length){ el.innerHTML='<div style="font-size:.75rem;color:var(--tx3);padding:8px 0 14px;">No tasks yet for this week — add one below.</div>'; return; }
+
+  const byProj = {};
+  tasks.forEach(t=>{ if(!byProj[t.projId]) byProj[t.projId]=[]; byProj[t.projId].push(t); });
+
+  el.innerHTML = Object.entries(byProj).map(([pid,ptasks])=>{
+    const proj = S.projects.find(p=>p.id===pid);
+    const col = proj ? goalColorForProject(pid) : 'var(--tx3)';
+    return `<div style="margin-bottom:11px;">
+      <div style="font-size:.7rem;font-weight:700;color:${col};text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;">${proj?proj.name:'Unknown'}</div>
+      ${ptasks.map(t=>`
+        <div class="wtask${t.done?' done':''}" id="wt-${t.id}">
+          <div class="wtcheck" onclick="toggleWeeklyTask('${t.id}')">${t.done?'✓':''}</div>
+          <div class="wtlabel">${t.text}</div>
+          <div class="wtday">${t.day==='Any'?'':t.day}</div>
+          <button class="wtdel" onclick="deleteWeeklyTask('${t.id}')">✕</button>
+        </div>`).join('')}
+    </div>`;
+  }).join('');
+}
+
+function populateWeeklyProjSelect(){
+  const sel = document.getElementById('wt-proj'); if(!sel) return;
+  const projs = getCycleProjects();
+  sel.innerHTML = projs.length
+    ? projs.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')
+    : '<option value="">No active projects</option>';
+}
+
+function addWeeklyTask(){
+  const inp = document.getElementById('wt-inp');
+  const text = inp?.value.trim(); if(!text){ toast('Enter a task first'); return; }
+  const projId = document.getElementById('wt-proj')?.value;
+  const day = document.getElementById('wt-day')?.value||'Any';
+  if(!projId){ toast('Select a project'); return; }
+  const wk = wkKey();
+  if(!S.weeklyTasks) S.weeklyTasks={};
+  if(!S.weeklyTasks[wk]) S.weeklyTasks[wk]=[];
+  const task = {id:uid(),projId,text,day,done:false,createdAt:today()};
+  S.weeklyTasks[wk].push(task);
+  if(inp) inp.value='';
+  save(); buildWeeklyTasks(); toast('Task added ✓');
+}
+
+function toggleWeeklyTask(taskId){
+  const wk = wkKey();
+  const tasks = S.weeklyTasks[wk]||[];
+  const t = tasks.find(t=>t.id===taskId); if(!t) return;
+  t.done = !t.done;
+  save(); buildWeeklyTasks(); buildDailyTasks();
+}
+
+function deleteWeeklyTask(taskId){
+  const wk = wkKey();
+  if(S.weeklyTasks[wk]) S.weeklyTasks[wk] = S.weeklyTasks[wk].filter(t=>t.id!==taskId);
+  save(); buildWeeklyTasks();
+}
+
+function getThisWeekDays(){
+  const now = new Date();
+  const dow = now.getDay();
+  const monday = new Date(now); monday.setDate(now.getDate()-(dow===0?6:dow-1));
+  return Array.from({length:7},(_,i)=>{ const d=new Date(monday); d.setDate(monday.getDate()+i); return d.toISOString().split('T')[0]; });
+}
+
+// ── TRACKER ───────────────────────────────────────────────────────────────
+function buildTracker(){ buildTrackerCycle(); }
+
+function buildTrackerCycle(){
+  const el = document.getElementById('tracker-cycle-content'); if(!el) return;
+  const c = getActiveCycle();
+  if(!c){ el.innerHTML='<div class="card" style="text-align:center;padding:24px;"><div style="font-size:.85rem;color:var(--tx3);">No active cycle. Start one in Settings.</div></div>'; return; }
+
+  const projs = getCycleProjects();
+  const now = new Date();
+  const start = new Date(c.startDate);
+  const end = new Date(c.endDate+'T23:59:59');
+  const totalDays = Math.ceil((end-start)/(1000*60*60*24));
+  const daysPast = Math.min(totalDays, Math.ceil((now-start)/(1000*60*60*24)));
+  const cyclePct = Math.round(daysPast/totalDays*100);
+
+  // Overall habit completion this cycle
+  let allSlots=0, allDone=0;
+  const cycleDays = [];
+  for(let i=0;i<daysPast;i++){ const d=new Date(start); d.setDate(start.getDate()+i); cycleDays.push(d.toISOString().split('T')[0]); }
+
+  projs.forEach(proj=>{
+    getProjectHabits(proj.id).forEach(h=>{
+      const tgt = h.targetDays||7;
+      cycleDays.forEach(d=>{
+        const wday = new Date(d).getDay();
+        // Count all days (target is weekly frequency, approximate daily)
+        allSlots++;
+        if(getHabitState(d,proj.id,h.id)==='done') allDone++;
+      });
+    });
+  });
+  const overallPct = allSlots ? Math.round(allDone/allSlots*100) : 0;
+  const overallCol = overallPct>=80?'var(--green)':overallPct>=60?'var(--a2)':'var(--a)';
+
+  // Build week-by-week bar chart data
+  const weeks = Math.ceil(totalDays/7);
+  const wkLabels=[], wkData=[];
+  for(let w=0;w<Math.min(weeks,daysPast/7+1);w++){
+    const wStart = new Date(start); wStart.setDate(start.getDate()+w*7);
+    const wDays = Array.from({length:7},(_,i)=>{ const d=new Date(wStart); d.setDate(wStart.getDate()+i); return d.toISOString().split('T')[0]; }).filter(d=>new Date(d)<=now);
+    let ws=0,wd=0;
+    projs.forEach(proj=>{ getProjectHabits(proj.id).forEach(h=>{ wDays.forEach(d=>{ ws++; if(getHabitState(d,proj.id,h.id)==='done') wd++; }); }); });
+    if(ws>0){ wkLabels.push('W'+(w+1)); wkData.push(Math.round(wd/ws*100)); }
+  }
+
+  el.innerHTML = `
+    <!-- Cycle summary tiles -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:9px;">
+      <div class="stile"><div class="sv" style="color:${overallCol};font-size:1.1rem;">${overallPct}%</div><div class="slb">Overall</div></div>
+      <div class="stile"><div class="sv" style="color:var(--blue);">${daysPast}/${totalDays}</div><div class="slb">Days</div></div>
+      <div class="stile"><div class="sv" style="color:var(--purple);">${projs.length}</div><div class="slb">Projects</div></div>
+    </div>
+    <!-- Cycle timeline bar -->
+    <div class="card" style="margin-bottom:9px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+        <span style="font-size:.72rem;font-weight:600;">Cycle progress</span>
+        <span style="font-size:.72rem;color:var(--tx3);">${cyclePct}% of time elapsed</span>
+      </div>
+      <div class="pb" style="height:7px;"><div class="pf" style="width:${cyclePct}%;background:var(--a);"></div></div>
+      <div style="display:flex;justify-content:space-between;margin-top:4px;">
+        <span style="font-size:.6rem;color:var(--tx3);">${c.startDate}</span>
+        <span style="font-size:.6rem;color:var(--tx3);">${c.endDate}</span>
+      </div>
+    </div>
+    <!-- Week by week chart -->
+    ${wkLabels.length>1?`<div class="card" style="margin-bottom:9px;">
+      <div style="font-size:.72rem;font-weight:600;margin-bottom:8px;">Week by week — habit completion %</div>
+      <div class="chart-wrap"><canvas id="c-wktrend"></canvas></div>
+    </div>`:''}
+    <!-- Per-project breakdown -->
+    <div class="sl">Projects this cycle</div>
+    ${projs.map(proj=>{
+      const ph = getProjectHabits(proj.id);
+      const col = goalColorForProject(proj.id);
+      let ps=0,pd=0;
+      ph.forEach(h=>{ cycleDays.forEach(d=>{ ps++; if(getHabitState(d,proj.id,h.id)==='done') pd++; }); });
+      const pp = ps?Math.round(pd/ps*100):0;
+      const wk = wkKey();
+      const tasks = (S.weeklyTasks[wk]||[]).filter(t=>t.projId===proj.id);
+      const tDone = tasks.filter(t=>t.done).length;
+      return `<div class="card" style="margin-bottom:7px;">
+        <div style="display:flex;align-items:center;gap:9px;margin-bottom:7px;">
+          <div class="cdot" style="background:${col};width:8px;height:8px;border-radius:50%;flex-shrink:0;"></div>
+          <div style="font-size:.85rem;font-weight:700;flex:1;">${proj.name}</div>
+          <div style="font-size:.72rem;font-weight:700;color:${col};">${pp}%</div>
+        </div>
+        <div class="pb"><div class="pf" style="width:${pp}%;background:${pp>=80?'var(--green)':pp>=60?'var(--a2)':'var(--a)'}"></div></div>
+        <div style="display:flex;gap:14px;margin-top:7px;">
+          <span style="font-size:.67rem;color:var(--tx3);">Habits: ${pd}/${ps} done</span>
+          <span style="font-size:.67rem;color:var(--tx3);">Tasks this week: ${tDone}/${tasks.length}</span>
+        </div>
+      </div>`;
+    }).join('')}`;
+
+  // Draw chart after render
+  if(wkLabels.length>1){
+    setTimeout(()=>{
+      const canvas = document.getElementById('c-wktrend'); if(!canvas) return;
+      new Chart(canvas,{type:'bar',data:{labels:wkLabels,datasets:[{data:wkData,backgroundColor:wkData.map(v=>v>=80?'rgba(34,197,94,.7)':v>=60?'rgba(245,166,35,.7)':'rgba(232,98,42,.7)'),borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:0,max:100,ticks:{font:{size:9},callback:v=>v+'%'},grid:{color:'rgba(0,0,0,.05)'}},x:{ticks:{font:{size:9}},grid:{display:false}}}}});
+    },50);
+  }
+}
+
+function buildTrackerHabits(){
+  const el = document.getElementById('tracker-habits-content'); if(!el) return;
+  const c = getActiveCycle(); if(!c){ el.innerHTML='<div style="color:var(--tx3);font-size:.78rem;padding:8px;">No active cycle.</div>'; return; }
+
+  const start = new Date(c.startDate);
+  const now = new Date();
+  const cycleDays = [];
+  for(let i=0;i<365;i++){ const d=new Date(start); d.setDate(start.getDate()+i); if(d>now) break; cycleDays.push(d.toISOString().split('T')[0]); }
+
+  const lastWeek = cycleDays.slice(-7);
+
+  let html = '';
+  getCycleProjects().forEach(proj=>{
+    const habits = getProjectHabits(proj.id);
+    if(!habits.length) return;
+    const col = goalColorForProject(proj.id);
+    html += `<div class="sl" style="color:${col};">${proj.name}</div>`;
+    habits.forEach(h=>{
+      const rate = habitCompletionRate(proj.id, h.id, cycleDays);
+      const wkRate = habitCompletionRate(proj.id, h.id, lastWeek);
+      const freq = h.targetDays===7?'Daily':h.targetDays+'×/wk';
+      // Streak
+      let streak=0;
+      for(let i=cycleDays.length-1;i>=0;i--){
+        if(getHabitState(cycleDays[i],proj.id,h.id)==='done') streak++; else break;
+      }
+      html += `<div class="card" style="margin-bottom:7px;">
+        <div style="display:flex;align-items:center;gap:9px;margin-bottom:6px;">
+          <div class="cdot" style="background:${col};width:6px;height:6px;border-radius:50%;flex-shrink:0;"></div>
+          <div style="font-size:.82rem;font-weight:600;flex:1;">${h.name}</div>
+          <div style="font-size:.65rem;color:var(--tx3);">${freq}</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:7px;">
+          <div style="text-align:center;background:var(--bg2);border-radius:8px;padding:6px 4px;">
+            <div style="font-family:var(--ffh);font-size:1rem;color:${col};">${rate}%</div>
+            <div style="font-size:.58rem;color:var(--tx3);">All time</div>
+          </div>
+          <div style="text-align:center;background:var(--bg2);border-radius:8px;padding:6px 4px;">
+            <div style="font-family:var(--ffh);font-size:1rem;color:var(--blue);">${wkRate}%</div>
+            <div style="font-size:.58rem;color:var(--tx3);">This week</div>
+          </div>
+          <div style="text-align:center;background:var(--bg2);border-radius:8px;padding:6px 4px;">
+            <div style="font-family:var(--ffh);font-size:1rem;color:var(--a2);">${streak}</div>
+            <div style="font-size:.58rem;color:var(--tx3);">Streak</div>
+          </div>
+        </div>
+        <div class="pb"><div class="pf" style="width:${rate}%;background:${rate>=80?'var(--green)':rate>=60?'var(--a2)':'var(--a)'}"></div></div>
+      </div>`;
+    });
+  });
+  el.innerHTML = html || '<div style="color:var(--tx3);font-size:.78rem;padding:8px;">No habits in active projects.</div>';
+}
+
+function buildTrackerHistory(){
+  const el = document.getElementById('tracker-history-content'); if(!el) return;
+  const hist = S.cycleHistory||[];
+  if(!hist.length){ el.innerHTML='<div class="card" style="text-align:center;padding:24px;"><div style="font-size:.85rem;color:var(--tx3);">No completed cycles yet.</div></div>'; return; }
+  el.innerHTML = hist.slice().reverse().map((c,i)=>{
+    const projNames = (c.projectIds||[]).map(id=>{
+      const p = S.projects.find(p=>p.id===id); return p?p.name:'';
+    }).filter(Boolean).join(', ');
+    return `<div class="card" style="margin-bottom:9px;">
+      <div style="font-size:.8rem;font-weight:700;margin-bottom:4px;">Cycle ${hist.length-i}</div>
+      <div style="font-size:.67rem;color:var(--tx3);margin-bottom:6px;">${c.startDate} → ${c.endDate}</div>
+      <div style="font-size:.72rem;color:var(--tx2);margin-bottom:8px;">${projNames}</div>
+      <div style="display:flex;gap:8px;">
+        <span class="tag tg">Completed</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── SETTINGS — GOALS & PROJECTS ──────────────────────────────────────────
+function buildSettingsGoals(){
+  const el = document.getElementById('goals-list'); if(!el) return;
+  const goals = S.goals.filter(g=>!g.archived);
+  if(!goals.length){ el.innerHTML='<div style="color:var(--tx3);font-size:.78rem;padding:8px 0 12px;">No goals yet — add your first goal.</div>'; return; }
+
+  el.innerHTML = goals.map(goal=>{
+    const projs = S.projects.filter(p=>p.goalId===goal.id&&!p.archived);
+    const done = projs.filter(p=>p.status==='complete').length;
+    const pct = projs.length ? Math.round(done/projs.length*100) : 0;
+    const col = COLOR_MAP[goal.area]||'var(--a)';
+    return `<div class="goal-item">
+      <div class="goal-hdr" style="background:${col}08;">
+        <div class="cdot" style="background:${col};width:8px;height:8px;border-radius:50%;flex-shrink:0;"></div>
+        <div style="flex:1;">
+          <div class="goal-name">${goal.name}</div>
+          <div style="font-size:.63rem;color:var(--tx3);margin-top:2px;">${goal.area} · ${done}/${projs.length} projects</div>
+        </div>
+        <div class="goal-pct">${pct}%</div>
+        <button onclick="event.stopPropagation();openAddProject('${goal.id}')" style="font-size:.65rem;color:var(--green);padding:3px 9px;border-radius:6px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);margin-left:6px;">+ Project</button>
+        <button onclick="event.stopPropagation();archiveGoal('${goal.id}')" style="font-size:.65rem;color:var(--tx3);padding:3px 9px;border-radius:6px;background:var(--sur);border:1px solid var(--bdr);margin-left:4px;">Archive</button>
+      </div>
+      <div class="goal-body">
+        ${projs.length ? projs.map(proj=>renderProjItem(proj)).join('') : '<div style="color:var(--tx3);font-size:.75rem;padding:4px 0;">No projects yet</div>'}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderProjItem(proj){
+  const col = goalColorForProject(proj.id);
+  const habits = proj.habits||[];
+  const tasks = (S.weeklyTasks[wkKey()]||[]).filter(t=>t.projId===proj.id);
+  const inCycle = S.cycle && (S.cycle.projectIds||[]).includes(proj.id) && S.cycle.status==='active';
+  return `<div class="proj-item" style="border-left:3px solid ${col};">
+    <div class="proj-item-info">
+      <div class="proj-item-name">${proj.name}</div>
+      <div class="proj-item-sub">${habits.filter(h=>!h.archived).length} habits · ${proj.deadline||'no deadline'}${inCycle?' · <span style="color:var(--a);font-weight:600;">In cycle</span>':''}</div>
+    </div>
+    <div class="proj-item-btns">
+      <button class="btn btb btsm" onclick="openProjDetail('${proj.id}')">Manage</button>
+    </div>
+  </div>`;
+}
+
+function openAddGoal(){
+  document.getElementById('modal-add-title').textContent = 'New goal';
+  document.getElementById('modal-add-body').innerHTML = `
+    <div class="igrp"><label class="ilbl">Goal name</label><input class="inp" id="m-goal-name" placeholder="e.g. Get to 15% body fat"/></div>
+    <div class="igrp">
+      <label class="ilbl">Life area</label>
+      <select class="inp" id="m-goal-area" style="appearance:none;">
+        ${Object.keys(COLOR_MAP).map(a=>`<option value="${a}">${a}</option>`).join('')}
+      </select>
+    </div>
+    <button class="btn btp bfu" onclick="saveNewGoal()">Create goal</button>`;
+  openModal('modal-add');
+}
+
+function saveNewGoal(){
+  const name = document.getElementById('m-goal-name')?.value.trim();
+  const area = document.getElementById('m-goal-area')?.value;
+  if(!name){ toast('Enter a goal name'); return; }
+  S.goals.push({id:uid(),name,area:area||'Other',projects:[],archived:false,createdAt:today()});
+  save(); closeModal('modal-add'); buildSettingsGoals(); toast('Goal created ✓');
+}
+
+function archiveGoal(id){
+  if(!confirm('Archive this goal? It will be hidden but kept in history.')) return;
+  const g = S.goals.find(g=>g.id===id); if(g) g.archived=true;
+  save(); buildSettingsGoals(); toast('Goal archived');
+}
+
+function openAddProject(goalId){
+  document.getElementById('modal-add-title').textContent = 'New project';
+  document.getElementById('modal-add-body').innerHTML = `
+    <div class="igrp"><label class="ilbl">Project name</label><input class="inp" id="m-proj-name" placeholder="e.g. 12-week cut"/></div>
+    <div class="igrp"><label class="ilbl">Deadline (optional)</label><input class="inp" type="date" id="m-proj-deadline"/></div>
+    <button class="btn btp bfu" onclick="saveNewProject('${goalId}')">Create project</button>`;
+  openModal('modal-add');
+}
+
+function saveNewProject(goalId){
+  const name = document.getElementById('m-proj-name')?.value.trim();
+  const deadline = document.getElementById('m-proj-deadline')?.value||'';
+  if(!name){ toast('Enter a project name'); return; }
+  S.projects.push({id:uid(),goalId,name,deadline,habits:[],archived:false,status:'active',createdAt:today()});
+  save(); closeModal('modal-add'); buildSettingsGoals(); toast('Project created ✓');
+}
+
+function openProjDetail(projId){
+  const proj = S.projects.find(p=>p.id===projId); if(!proj) return;
+  const goal = S.goals.find(g=>g.id===proj.goalId);
+  const col = goalColorForProject(projId);
+  const habits = proj.habits||[];
+  const inCycle = S.cycle && (S.cycle.projectIds||[]).includes(projId) && S.cycle.status==='active';
+
+  document.getElementById('modal-add-title').textContent = proj.name;
+  document.getElementById('modal-add-body').innerHTML = `
+    <div style="font-size:.7rem;color:var(--tx3);margin-bottom:12px;">${goal?goal.name:''} · ${proj.deadline||'No deadline'}${inCycle?' · <b style="color:var(--a);">Active in cycle</b>':''}</div>
+
+    <!-- Habits -->
+    <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:${col};margin-bottom:7px;">Habits</div>
+    <div id="proj-habits-list">
+      ${habits.filter(h=>!h.archived).map(h=>renderProjHabitRow(projId,h)).join('')}
+    </div>
+    <div style="margin-bottom:12px;">
+      <div class="irow" style="margin-bottom:6px;">
+        <input class="inp" id="ph-name" placeholder="Habit name…" style="flex:2;"/>
+        <select class="inp" id="ph-days" style="flex:1;appearance:none;">
+          <option value="7">Daily (7)</option>
+          <option value="6">6×/wk</option>
+          <option value="5">5×/wk</option>
+          <option value="4">4×/wk</option>
+          <option value="3">3×/wk</option>
+          <option value="2">2×/wk</option>
+          <option value="1">1×/wk</option>
+        </select>
+      </div>
+      <div class="irow" style="margin-bottom:6px;">
+        <input class="inp" id="ph-hint" placeholder="Description / tip (optional)…"/>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+        <label class="tog"><input type="checkbox" id="ph-reason"><span class="tog-slider"></span></label>
+        <span style="font-size:.75rem;color:var(--tx2);">Ask for reason when skipped</span>
+      </div>
+      <button class="btn btg bfu" onclick="addHabitToProject('${projId}')">+ Add habit</button>
+    </div>
+
+    <div style="height:1px;background:var(--bdr);margin:6px 0 12px;"></div>
+
+    <!-- Danger zone -->
+    <div style="display:flex;gap:6px;">
+      ${proj.status!=='complete'?`<button class="btn btg" style="flex:1;font-size:.75rem;" onclick="markProjectComplete('${projId}')">✅ Mark complete</button>`:''}
+      <button class="btn btr" style="flex:1;font-size:.75rem;" onclick="abandonProject('${projId}')">Abandon</button>
+    </div>`;
+
+  openModal('modal-add');
+}
+
+function renderProjHabitRow(projId, h){
+  const freq = h.targetDays===7?'Daily':h.targetDays+'×/wk';
+  return `<div class="set-row" style="margin-bottom:5px;">
+    <div class="set-row-info">
+      <div class="set-row-name">${h.name}</div>
+      <div class="set-row-sub">${freq}${h.hint?' · '+h.hint.slice(0,40):''}</div>
+    </div>
+    <div style="display:flex;gap:4px;">
+      <button class="btn btsm btb" onclick="editHabit('${projId}','${h.id}')">Edit</button>
+      <button class="btn btsm btr" onclick="archiveHabitFromProj('${projId}','${h.id}')">Archive</button>
+    </div>
+  </div>`;
+}
+
+function addHabitToProject(projId){
+  const name = document.getElementById('ph-name')?.value.trim();
+  if(!name){ toast('Enter a habit name'); return; }
+  const targetDays = parseInt(document.getElementById('ph-days')?.value)||7;
+  const hint = document.getElementById('ph-hint')?.value.trim()||'';
+  const reasonEnabled = document.getElementById('ph-reason')?.checked||false;
+  const proj = S.projects.find(p=>p.id===projId); if(!proj) return;
+  if(!proj.habits) proj.habits=[];
+  proj.habits.push({id:uid(),name,targetDays,hint,reasonEnabled,archived:false,createdAt:today()});
+  save();
+  // Refresh habits list in modal
+  document.getElementById('proj-habits-list').innerHTML =
+    proj.habits.filter(h=>!h.archived).map(h=>renderProjHabitRow(projId,h)).join('');
+  document.getElementById('ph-name').value='';
+  document.getElementById('ph-hint').value='';
+  document.getElementById('ph-days').value='7';
+  document.getElementById('ph-reason').checked=false;
+  toast('Habit added ✓');
+  buildDailyView();
+}
+
+function archiveHabitFromProj(projId, habId){
+  const proj = S.projects.find(p=>p.id===projId); if(!proj) return;
+  const h = (proj.habits||[]).find(h=>h.id===habId); if(!h) return;
+  h.archived=true; save(); openProjDetail(projId); buildDailyView(); toast('Habit archived');
+}
+
+function editHabit(projId, habId){
+  const proj = S.projects.find(p=>p.id===projId); if(!proj) return;
+  const h = (proj.habits||[]).find(h=>h.id===habId); if(!h) return;
+  closeModal('modal-add');
+  setTimeout(()=>{
+    document.getElementById('modal-add-title').textContent = 'Edit habit';
+    document.getElementById('modal-add-body').innerHTML = `
+      <div class="igrp"><label class="ilbl">Habit name</label><input class="inp" id="eh-name" value="${h.name}"/></div>
+      <div class="igrp">
+        <label class="ilbl">Target days / week</label>
+        <select class="inp" id="eh-days" style="appearance:none;">
+          ${[7,6,5,4,3,2,1].map(n=>`<option value="${n}" ${h.targetDays===n?'selected':''}>${n===7?'Daily (7)':n+'×/wk'}</option>`).join('')}
+        </select>
+      </div>
+      <div class="igrp"><label class="ilbl">Description / tip</label><input class="inp" id="eh-hint" value="${h.hint||''}"/></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+        <label class="tog"><input type="checkbox" id="eh-reason" ${h.reasonEnabled?'checked':''}><span class="tog-slider"></span></label>
+        <span style="font-size:.75rem;color:var(--tx2);">Ask for reason when skipped</span>
+      </div>
+      <button class="btn btp bfu" onclick="saveHabitEdit('${projId}','${habId}')">Save changes</button>
+      <button class="btn btgh bfu" style="margin-top:7px;" onclick="openProjDetail('${projId}')">← Back to project</button>`;
+    openModal('modal-add');
+  }, 100);
+}
+
+function saveHabitEdit(projId, habId){
+  const proj = S.projects.find(p=>p.id===projId); if(!proj) return;
+  const h = (proj.habits||[]).find(h=>h.id===habId); if(!h) return;
+  const name = document.getElementById('eh-name')?.value.trim();
+  if(!name){ toast('Name required'); return; }
+  h.name = name;
+  h.targetDays = parseInt(document.getElementById('eh-days')?.value)||7;
+  h.hint = document.getElementById('eh-hint')?.value.trim()||'';
+  h.reasonEnabled = document.getElementById('eh-reason')?.checked||false;
+  save(); closeModal('modal-add'); buildDailyView(); toast('Habit updated ✓');
+}
+
+function markProjectComplete(projId){
+  const proj = S.projects.find(p=>p.id===projId); if(!proj) return;
+  proj.status='complete';
+  save(); closeModal('modal-add'); buildSettingsGoals(); toast('Project marked complete ✓');
+}
+
+function abandonProject(projId){
+  if(!confirm('Abandon this project? It will be archived.')) return;
+  const proj = S.projects.find(p=>p.id===projId); if(!proj) return;
+  proj.archived=true; proj.status='abandoned';
+  // Remove from active cycle if present
+  if(S.cycle) S.cycle.projectIds = (S.cycle.projectIds||[]).filter(id=>id!==projId);
+  save(); closeModal('modal-add'); buildSettingsGoals(); buildDailyView(); toast('Project abandoned');
+}
+
+// ── SETTINGS — CYCLE ─────────────────────────────────────────────────────
+function buildCycleMgmt(){
+  const el = document.getElementById('cycle-mgmt-content'); if(!el) return;
+  const c = getActiveCycle();
+
+  if(c){
+    const end = new Date(c.endDate+'T23:59:59');
+    const now = new Date();
+    const dLeft = Math.max(0,Math.ceil((end-now)/(1000*60*60*24)));
+    const projs = getCycleProjects();
+    el.innerHTML = `
+      <div class="cycle-bar">
+        <div class="cycle-bar-title">🔒 Active cycle — locked</div>
+        <div style="font-size:.72rem;color:var(--tx2);margin-bottom:8px;">${c.startDate} → ${c.endDate} · ${dLeft} days remaining</div>
+        <div class="cycle-bar-projects">
+          ${projs.map(p=>`<div class="cycle-proj-tag${p.status==='complete'?' done':''}">${p.name}</div>`).join('')}
+        </div>
+        <div class="pb" style="margin-bottom:10px;"><div class="pf" style="width:${Math.round((1-dLeft/Math.ceil((end-new Date(c.startDate))/(1000*60*60*24)))*100)}%;background:var(--a);"></div></div>
+        <button class="btn btr bfu" onclick="openEndCycle()">End this cycle</button>
+      </div>`;
+  } else {
+    const available = S.projects.filter(p=>!p.archived&&p.status==='active');
+    el.innerHTML = `
+      <div class="card co" style="margin-bottom:12px;">
+        <div style="font-size:.8rem;font-weight:700;margin-bottom:4px;">Start a new cycle</div>
+        <div style="font-size:.72rem;color:var(--tx2);margin-bottom:12px;line-height:1.5;">Select projects to commit to, set an end date, and lock your cycle. You cannot change these once started.</div>
+        <div class="igrp"><label class="ilbl">Cycle end date</label><input class="inp" type="date" id="nc-end"/></div>
+        <div class="igrp"><label class="ilbl">Select projects to commit to</label></div>
+        ${available.length ? available.map(p=>{
+          const g = S.goals.find(g=>g.id===p.goalId);
+          return `<div style="display:flex;align-items:center;gap:9px;padding:8px 11px;background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r2);margin-bottom:5px;">
+            <label class="tog"><input type="checkbox" class="nc-proj-chk" value="${p.id}"><span class="tog-slider"></span></label>
+            <div style="flex:1;">
+              <div style="font-size:.82rem;font-weight:600;">${p.name}</div>
+              <div style="font-size:.62rem;color:var(--tx3);">${g?g.name:''}</div>
+            </div>
+          </div>`;
+        }).join('') : '<div style="font-size:.75rem;color:var(--tx3);padding:8px 0;">No projects available. Create goals and projects first.</div>'}
+        <button class="btn btp bfu" style="margin-top:10px;" onclick="startCycle()">🔒 Start & lock cycle</button>
+      </div>`;
+  }
+
+  // Backlog
+  const backlog = S.projects.filter(p=>!p.archived&&p.status==='active'&&!(c&&(c.projectIds||[]).includes(p.id)));
+  el.innerHTML += `<div class="sl">Backlog — not in current cycle</div>
+    ${backlog.length ? backlog.map(p=>{
+      const g=S.goals.find(g=>g.id===p.goalId);
+      return `<div class="proj-item" style="margin-bottom:6px;">
+        <div class="proj-item-info">
+          <div class="proj-item-name">${p.name}</div>
+          <div class="proj-item-sub">${g?g.name:''} · ${p.deadline||'no deadline'}</div>
+        </div>
+      </div>`;
+    }).join('') : '<div style="font-size:.75rem;color:var(--tx3);padding:8px 0;">No backlog items.</div>'}`;
+}
+
+function startCycle(){
+  const endDate = document.getElementById('nc-end')?.value;
+  if(!endDate){ toast('Set an end date'); return; }
+  const checked = [...document.querySelectorAll('.nc-proj-chk:checked')].map(el=>el.value);
+  if(!checked.length){ toast('Select at least one project'); return; }
+  if(new Date(endDate)<=new Date()){ toast('End date must be in the future'); return; }
+  S.cycle = {id:uid(),startDate:today(),endDate,projectIds:checked,locked:true,status:'active'};
+  save(); buildCycleMgmt(); buildDailyView(); toast('Cycle started and locked 🔒');
+  document.getElementById('topbar-cycle-label').textContent='Cycle active';
+}
+
+function openEndCycle(){
+  const c = getActiveCycle(); if(!c) return;
+  const projs = getCycleProjects();
+  const body = document.getElementById('cycle-end-body');
+  body.innerHTML = `
+    <div style="font-size:.75rem;color:var(--tx2);margin-bottom:12px;line-height:1.5;">Review each project outcome before closing the cycle.</div>
+    ${projs.map(proj=>`
+      <div style="padding:11px;border:1px solid var(--bdr);border-radius:var(--r2);margin-bottom:8px;">
+        <div style="font-size:.85rem;font-weight:700;margin-bottom:8px;">${proj.name}</div>
+        <div style="display:flex;gap:6px;">
+          <button class="btn btg" style="flex:1;font-size:.72rem;" onclick="endCycleProjOutcome('${proj.id}','complete')">✅ Complete</button>
+          <button class="btn btb" style="flex:1;font-size:.72rem;" onclick="endCycleProjOutcome('${proj.id}','migrate')">→ Migrate</button>
+          <button class="btn btr" style="flex:1;font-size:.72rem;" onclick="endCycleProjOutcome('${proj.id}','abandon')">✕ Abandon</button>
+        </div>
+        <div id="outcome-${proj.id}" style="font-size:.65rem;color:var(--tx3);margin-top:5px;"></div>
+      </div>`).join('')}
+    <button class="btn btp bfu" style="margin-top:6px;" onclick="finaliseCycleEnd()">Close cycle</button>`;
+  openModal('modal-cycle-end');
+}
+
+const cycleOutcomes = {};
+function endCycleProjOutcome(projId, outcome){
+  cycleOutcomes[projId] = outcome;
+  const el = document.getElementById('outcome-'+projId);
+  if(el) el.textContent = outcome==='complete'?'✅ Will be marked complete':'→ Will carry to next cycle / ✕ Will be abandoned';
+}
+
+function finaliseCycleEnd(){
+  const c = S.cycle; if(!c) return;
+  const projs = getCycleProjects();
+  projs.forEach(proj=>{
+    const out = cycleOutcomes[proj.id]||'migrate';
+    if(out==='complete'){ proj.status='complete'; }
+    else if(out==='abandon'){ proj.archived=true; proj.status='abandoned'; }
+    // migrate = stays active, available for next cycle
+  });
+  // Archive cycle to history
+  S.cycleHistory = S.cycleHistory||[];
+  S.cycleHistory.push({...c, endedAt:today()});
+  S.cycle = null;
+  save(); closeModal('modal-cycle-end'); buildCycleMgmt(); buildSettingsGoals(); buildDailyView();
+  toast('Cycle closed. Start a new one when ready.');
+}
+
+// ── SETTINGS — PREFS ──────────────────────────────────────────────────────
+function buildEodConfig(){
+  const el = document.getElementById('eod-config-list'); if(!el) return;
+  const qs = S.eodQuestions||[];
+  if(!qs.length){ el.innerHTML='<div style="font-size:.75rem;color:var(--tx3);padding:4px 0 10px;">No questions yet.</div>'; return; }
+  el.innerHTML = qs.map(q=>`
+    <div class="set-row" style="margin-bottom:5px;">
+      <div class="set-row-info">
+        <div class="set-row-name">${q.text}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <label class="tog"><input type="checkbox" ${q.enabled?'checked':''} onchange="toggleEodQ('${q.id}',this.checked)"><span class="tog-slider"></span></label>
+        <button onclick="deleteEodQ('${q.id}')" style="font-size:.65rem;color:var(--red);padding:3px 8px;border-radius:5px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.15);">✕</button>
+      </div>
+    </div>`).join('');
+}
+
+function addEodQuestion(){
+  const inp = document.getElementById('eod-q-inp');
+  const text = inp?.value.trim(); if(!text){ toast('Enter a question'); return; }
+  if(!S.eodQuestions) S.eodQuestions=[];
+  S.eodQuestions.push({id:uid(),text,enabled:true});
+  if(inp) inp.value='';
+  save(); buildEodConfig(); toast('Question added ✓');
+}
+
+function toggleEodQ(id, val){
+  const q = (S.eodQuestions||[]).find(q=>q.id===id); if(q){ q.enabled=val; save(); }
+}
+
+function deleteEodQ(id){
+  S.eodQuestions = (S.eodQuestions||[]).filter(q=>q.id!==id);
+  save(); buildEodConfig();
+}
+
+function buildArchivedPool(){
+  const el = document.getElementById('archived-pool'); if(!el) return;
+  // Show archived habits from old system + any archived from projects
+  const archived = S.archivedHabits||[];
+  if(!archived.length){ el.innerHTML='<div style="font-size:.75rem;color:var(--tx3);padding:4px 0;">Pool is empty.</div>'; return; }
+  el.innerHTML = archived.map(h=>`
+    <div class="bl-item">
+      <div style="flex:1;">
+        <div class="bl-name">${h.name}</div>
+        <div class="bl-sub">${h.cat||''}</div>
+      </div>
+    </div>`).join('');
+}
+
+function saveTargets(){
+  S.targets = S.targets||{};
+  S.targets.tw  = parseFloat(document.getElementById('s-tw')?.value)||68;
+  S.targets.tbf = parseFloat(document.getElementById('s-tbf')?.value)||15;
+  S.targets.sw  = parseFloat(document.getElementById('s-sw')?.value)||82.5;
+  S.targets.sbf = parseFloat(document.getElementById('s-sbf')?.value)||27;
+  save(); toast('Goals saved ✓');
+}
+
+// ── HABIT INFO POPUP ─────────────────────────────────────────────────────
+function showHabitHint(e, habId, projId){
+  e.stopPropagation();
+  const proj = S.projects.find(p=>p.id===projId); if(!proj) return;
+  const h = (proj.habits||[]).find(h=>h.id===habId); if(!h) return;
+  document.getElementById('popup-category').textContent = (proj.name||'').toUpperCase();
+  document.getElementById('popup-title').textContent = h.name;
+  document.getElementById('popup-hint').textContent = h.hint||'No description added yet.';
+  const popup = document.getElementById('habit-popup');
+  popup.style.display='flex'; popup.style.alignItems='flex-end'; popup.style.flexDirection='column'; popup.style.justifyContent='flex-end';
+}
+function closeHabitPopup(){ document.getElementById('habit-popup').style.display='none'; }
+
+// ── DUE DATE ─────────────────────────────────────────────────────────────
+function openDueDateEditor(){
+  const c = getActiveCycle(); if(!c){ toast('No active cycle'); return; }
+  document.getElementById('due-date-inp').value = c.endDate||'';
+  document.getElementById('due-modal').style.display='flex';
+}
+function closeDueDateEditor(){ document.getElementById('due-modal').style.display='none'; }
+function saveDueDate(){
+  const val = document.getElementById('due-date-inp')?.value; if(!val) return;
+  if(S.cycle) S.cycle.endDate = val;
+  save(); closeDueDateEditor(); updateWksLeftTile(); toast('End date updated ✓');
+}
+
+// ── NUTRITION ─────────────────────────────────────────────────────────────
+function loadDietPage(){ buildDietNotes(); buildDietLists(); }
+
+function addDietNote(){
+  const type = document.getElementById('note-type').value;
+  const text = document.getElementById('note-text').value.trim();
+  if(!text){ toast('Write your note first'); return; }
+  if(!S.dietNotes) S.dietNotes=[];
+  S.dietNotes.unshift({id:Date.now(),type,text,date:today()});
+  save(); buildDietNotes(); buildDietLists();
+  document.getElementById('note-text').value='';
+  toast('Note saved ✓');
+}
+
+function deleteDietNote(id){
+  S.dietNotes=(S.dietNotes||[]).filter(n=>n.id!==id);
+  save(); buildDietNotes();
+}
+
+function buildDietNotes(){
+  const el=document.getElementById('diet-notes-list'); if(!el) return;
+  const notes=S.dietNotes||[];
+  if(!notes.length){ el.innerHTML='<div style="color:var(--tx3);font-size:.78rem;padding:4px 0;">No notes yet</div>'; return; }
+  const icons={helps:'✅',avoid:'❌',noticed:'💡'};
+  el.innerHTML=notes.map(n=>`
+    <div style="display:flex;align-items:flex-start;gap:9px;padding:9px 0;border-bottom:1px solid var(--bdr);">
+      <span style="font-size:1rem;flex-shrink:0;">${icons[n.type]}</span>
+      <div style="flex:1;"><div style="font-size:.8rem;line-height:1.45;">${n.text}</div><div style="font-size:.62rem;color:var(--tx3);margin-top:2px;">${n.date}</div></div>
+      <button onclick="deleteDietNote(${n.id})" style="font-size:.68rem;color:var(--tx3);padding:3px 7px;border-radius:5px;background:var(--sur);border:1px solid var(--bdr);">✕</button>
+    </div>`).join('');
+}
+
+function addDietItem(type){
+  const inp=document.getElementById(type+'-inp');
+  const text=inp?.value.trim(); if(!text) return;
+  if(type==='eat'){ if(!S.dietEat) S.dietEat=[]; S.dietEat.push({id:Date.now(),text}); }
+  else{ if(!S.dietAvoid) S.dietAvoid=[]; S.dietAvoid.push({id:Date.now(),text}); }
+  if(inp) inp.value='';
+  save(); buildDietLists();
+}
+
+function removeDietItem(type,id){
+  if(type==='eat') S.dietEat=(S.dietEat||[]).filter(i=>i.id!==id);
+  else S.dietAvoid=(S.dietAvoid||[]).filter(i=>i.id!==id);
+  save(); buildDietLists();
+}
+
+function buildDietLists(){
+  const eatEl=document.getElementById('eat-list');
+  const avoidEl=document.getElementById('avoid-list');
+  const eat=S.dietEat||[], avoid=S.dietAvoid||[];
+  if(eatEl) eatEl.innerHTML=eat.length?eat.map(i=>`<div style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);border-radius:99px;font-size:.72rem;color:var(--green);">${i.text}<button onclick="removeDietItem('eat',${i.id})" style="font-size:.6rem;color:var(--tx3);padding:0 2px;">✕</button></div>`).join(''):'<div style="font-size:.72rem;color:var(--tx3);">None yet</div>';
+  if(avoidEl) avoidEl.innerHTML=avoid.length?avoid.map(i=>`<div style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.18);border-radius:99px;font-size:.72rem;color:var(--red);">${i.text}<button onclick="removeDietItem('avoid',${i.id})" style="font-size:.6rem;color:var(--tx3);padding:0 2px;">✕</button></div>`).join(''):'<div style="font-size:.72rem;color:var(--tx3);">None yet</div>';
+}
+
+// ── DATA ─────────────────────────────────────────────────────────────────
+function exportJSON(){
+  const b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(b);
+  a.download='ameet2026_'+today()+'.json'; a.click(); toast('Exported ✓');
+}
+function clearData(){
+  if(!confirm('Delete ALL data? Cannot be undone.')) return;
+  localStorage.removeItem('a26v37'); location.reload();
+}
+
+// ── MIGRATE OLD HABITS TO ARCHIVED POOL ──────────────────────────────────
+function migrateOldHabits(){
+  // Check for v36 data and migrate habits to archived pool
+  try{
+    const old = JSON.parse(localStorage.getItem('a26v36')||'{}');
+    if(old.habitLog && !S._migrated){
+      // Carry over nutrition data
+      if(old.dietNotes&&!S.dietNotes.length) S.dietNotes=old.dietNotes;
+      if(old.dietEat&&!S.dietEat.length) S.dietEat=old.dietEat||[];
+      if(old.dietAvoid&&!S.dietAvoid.length) S.dietAvoid=old.dietAvoid||[];
+      if(old.journals&&!S.journals.length) S.journals=old.journals;
+      if(old.journalDates) S.journalDates=old.journalDates;
+      // Migrate old builtin habits to archived pool
+      const BUILTIN_NAMES=['Meditation — 5 min','5 things I am confident about','5 things I am grateful','5 good attributes of people','Confident mindset frameworks','Fluency practice','Workout done','2,450 cal / 150g protein','Ate slowly','3 whole food meals','Avoided outside food','Omega-3','Creatine hydration drink','Only 1 cup of coffee','Never looked back','Reframed any urge','Shifted mind to goal','Talked to someone','Break — logged today','Phone out of bedroom','Visualised goals','Calmed down','Slept 7 hours','Wrote 1–4 tasks','Completed what I committed','Caught & reframed'];
+      S.archivedHabits = BUILTIN_NAMES.map((name,i)=>({id:'legacy-'+i,name,cat:'Legacy'}));
+      S._migrated = true;
+      save();
+    }
+  }catch(e){}
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+function init(){
+  migrateOldHabits();
+  buildDailyView();
+  loadSettingsValues();
+  buildDietLists();
+  // Update topbar cycle label
+  const c = getActiveCycle();
+  const tbl = document.getElementById('topbar-cycle-label');
+  if(tbl) tbl.textContent = c ? 'Cycle active · '+c.endDate : '';
+}
+
+function loadSettingsValues(){
+  const t = S.targets||{};
+  const setVal=(id,v)=>{ const el=document.getElementById(id); if(el) el.value=v; };
+  setVal('s-tw',t.tw||68); setVal('s-tbf',t.tbf||15);
+  setVal('s-sw',t.sw||82.5); setVal('s-sbf',t.sbf||27);
+}
+
+init();
+</script>
+</body>
+</html>
